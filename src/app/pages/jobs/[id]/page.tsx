@@ -222,23 +222,23 @@ export default function JobDetailPage() {
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <span className="text-slate-400 text-sm font-bold uppercase tracking-widest">Match Score</span>
-                      <span className="text-4xl font-black text-blue-400">85%</span>
+                      <span className="text-4xl font-black text-blue-400">{skillGap.matchScore}%</span>
                     </div>
                     <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                      <div className="w-[85%] h-full bg-gradient-to-r from-blue-600 to-indigo-500"></div>
+                      <div className="h-full bg-gradient-to-r from-blue-600 to-indigo-500" style={{ width: `${skillGap.matchScore}%` }}></div>
                     </div>
                     
                     <div>
                       <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-3">Key Matches</h4>
                       <div className="flex flex-wrap gap-2">
-                        {skillGap.matchingSkills?.slice(0, 5).map((s: string, i: number) => (
+                        {skillGap.strengths?.slice(0, 5).map((s: string, i: number) => (
                           <span key={i} className="px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-bold text-white/80">{s}</span>
                         ))}
                       </div>
                     </div>
 
                     <p className="text-sm text-slate-400 leading-relaxed italic border-l-2 border-blue-500/40 pl-4">
-                      "Your experience with React and Node.js aligns perfectly with this role's requirements."
+                      "{skillGap.fitSummary}"
                     </p>
                   </div>
                 ) : (
