@@ -71,7 +71,7 @@ export default function ManageJobsPage() {
           </button>
         </div>
 
-        {/* Jobs Table/Grid */}
+        {/* Jobs Table/Grid */} 
         {isError ? (
           <div className="bg-white rounded-[2.5rem] p-20 border border-slate-100 text-center">
             <AlertCircle className="text-red-500 mx-auto mb-4" size={48} />
