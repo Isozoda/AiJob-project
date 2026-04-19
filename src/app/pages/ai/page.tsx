@@ -1,14 +1,14 @@
 "use client"
 import { useState, useEffect, useRef } from 'react';
-import { 
-  Send, 
-  Bot, 
-  User, 
-  FileText, 
-  Mail, 
-  MessageSquare, 
-  Sparkles, 
-  Loader2, 
+import {
+  Send,
+  Bot,
+  User,
+  FileText,
+  Mail,
+  MessageSquare,
+  Sparkles,
+  Loader2,
   ChevronRight,
   History,
   Trash2,
@@ -22,11 +22,11 @@ import {
   Cpu
 } from 'lucide-react';
 import { getToken } from '@/src/store/authStore';
-import { 
-  aiAsk, 
-  analyzeCv, 
-  draftCoverLetter, 
-  draftMessage 
+import {
+  aiAsk,
+  analyzeCv,
+  draftCoverLetter,
+  draftMessage
 } from '@/src/app/services/aiService';
 import { clsx } from 'clsx';
 import toast, { Toaster } from 'react-hot-toast';
@@ -84,11 +84,11 @@ export default function AiAssistantPage() {
       console.error('AI Error:', err);
       const backendError = err.response?.data?.description?.[0];
       const errorMsg = backendError || err.message || 'Neural link unstable. Recalibrating...';
-      
+
       toast.error(errorMsg);
-      setMessages(prev => [...prev, { 
-        role: 'ai', 
-        content: `❌ INTERRUPT: ${errorMsg}\n\nThe neural stream is currently saturated. Deploying alternative routing logic. Please re-synchronize or wait for lower bandwidth density.` 
+      setMessages(prev => [...prev, {
+        role: 'ai',
+        content: `❌ INTERRUPT: ${errorMsg}\n\nThe neural stream is currently saturated. Deploying alternative routing logic. Please re-synchronize or wait for lower bandwidth density.`
       }]);
     } finally {
       setIsLoading(false);
@@ -105,8 +105,8 @@ export default function AiAssistantPage() {
         applyToProfile: false,
         syncSkills: false
       });
-      setMessages(prev => [...prev, { 
-        role: 'ai', 
+      setMessages(prev => [...prev, {
+        role: 'ai',
         content: `Neural CV scan complete. Synchronizing findings to telemetry flow:`,
         type: 'object',
         data: result
@@ -129,8 +129,8 @@ export default function AiAssistantPage() {
         tone: coverLetterContext.tone,
         extraContext: coverLetterContext.extra
       });
-      setMessages(prev => [...prev, { 
-        role: 'ai', 
+      setMessages(prev => [...prev, {
+        role: 'ai',
         content: `Generated Manifesto for Opportunity Node #${coverLetterContext.jobId}:`,
         type: 'object',
         data: result
@@ -155,8 +155,8 @@ export default function AiAssistantPage() {
         tone: messageContext.tone,
         extraContext: messageContext.extra
       });
-      setMessages(prev => [...prev, { 
-        role: 'ai', 
+      setMessages(prev => [...prev, {
+        role: 'ai',
         content: `Encrypted signal drafted for ${messageContext.recipient}:`,
         type: 'object',
         data: result
@@ -172,7 +172,7 @@ export default function AiAssistantPage() {
   return (
     <div className="flex h-[calc(100vh-80px)] bg-slate-900 text-white overflow-hidden font-sans relative">
       <Toaster position="top-right" />
-      
+
       {/* ── BACKGROUND AMBIENCE ── */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-blue-600/10 blur-[150px] rounded-full opacity-40 animate-pulse"></div>
@@ -195,7 +195,7 @@ export default function AiAssistantPage() {
           background: rgba(59, 130, 246, 0.5);
         }
       `}</style>
-      
+
       {/* ── SIDEBAR ── */}
       <aside className="w-80 bg-slate-950/40 backdrop-blur-3xl border-r border-white/5 flex flex-col z-20">
         <div className="p-8">
@@ -208,29 +208,29 @@ export default function AiAssistantPage() {
               <p className="text-[9px] font-extrabold text-blue-500 uppercase tracking-[0.3em]">Protocol v4.2.0</p>
             </div>
           </div>
-          
+
           <nav className="space-y-2">
-            <NavItem 
-              active={activeTool === 'chat'} 
+            <NavItem
+              active={activeTool === 'chat'}
               onClick={() => setActiveTool('chat')}
               icon={<MessageSquare size={18} />}
               label="NEURAL CHAT"
               badge="STABLE"
             />
-            <NavItem 
-              active={activeTool === 'cv-analyzer'} 
+            <NavItem
+              active={activeTool === 'cv-analyzer'}
               onClick={() => setActiveTool('cv-analyzer')}
               icon={<FileText size={18} />}
               label="SCAN CV"
             />
-            <NavItem 
-              active={activeTool === 'cover-letter'} 
+            <NavItem
+              active={activeTool === 'cover-letter'}
               onClick={() => setActiveTool('cover-letter')}
               icon={<Sparkles size={18} />}
               label="MANIFESTO GEN"
             />
-            <NavItem 
-              active={activeTool === 'message-gen'} 
+            <NavItem
+              active={activeTool === 'message-gen'}
               onClick={() => setActiveTool('message-gen')}
               icon={<Mail size={18} />}
               label="SIGNAL BROADCAST"
@@ -258,7 +258,7 @@ export default function AiAssistantPage() {
 
       {/* ── MAIN CONTENT ── */}
       <main className="flex-1 flex flex-col relative z-10 overflow-hidden">
-        
+
         {/* Header toolbar */}
         <header className="h-20 border-b border-white/5 bg-slate-900/60 backdrop-blur-3xl flex items-center justify-between px-10 sticky top-0 z-30">
           <div className="flex items-center gap-4">
@@ -266,20 +266,20 @@ export default function AiAssistantPage() {
             <span className="text-xs font-extrabold text-slate-400 uppercase tracking-[0.4em] italic leading-none">{activeTool.replace('-', ' ')} protocol active</span>
           </div>
           <div className="flex items-center gap-4">
-            <ToolbarBtn icon={<History size={20}/>}/>
-            <ToolbarBtn icon={<Settings size={20}/>}/>
-            <button 
+            <ToolbarBtn icon={<History size={20} />} />
+            <ToolbarBtn icon={<Settings size={20} />} />
+            <button
               onClick={() => setMessages([{ role: 'ai', content: 'Neural buffer cleared. Re-initializing session...' }])}
               className="p-3 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-2xl transition-all"
             >
-              <Trash2 size={20}/>
+              <Trash2 size={20} />
             </button>
           </div>
         </header>
 
         {/* TOOL VIEWS */}
         <div className="flex-1 overflow-hidden relative custom-scrollbar">
-          
+
           {/* ── CHAT VIEW ── */}
           <div className={clsx("absolute inset-0 flex flex-col", activeTool === 'chat' ? 'visible' : 'invisible')}>
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-10 space-y-10 scroll-smooth custom-scrollbar">
@@ -293,12 +293,12 @@ export default function AiAssistantPage() {
                   </div>
                   <div className={clsx(
                     "p-6 md:p-8 rounded-[2.5rem] shadow-2xl text-lg leading-relaxed border relative overflow-hidden",
-                    msg.role === 'user' 
-                      ? "bg-blue-600/90 text-white rounded-tr-none border-blue-400/30" 
+                    msg.role === 'user'
+                      ? "bg-blue-600/90 text-white rounded-tr-none border-blue-400/30"
                       : "bg-white/5 backdrop-blur-3xl border-white/5 text-slate-300 rounded-tl-none"
                   )}>
                     <p className={clsx("whitespace-pre-wrap font-semibold italic opacity-95", msg.role === 'user' ? "" : "tracking-tight uppercase")}>{msg.content}</p>
-                    
+
                     {/* Render object data if available */}
                     {msg.type === 'object' && msg.data && (
                       <div className="mt-8 pt-8 border-t border-white/5 space-y-6">
@@ -325,16 +325,16 @@ export default function AiAssistantPage() {
             <div className="p-10 bg-gradient-to-t from-slate-900 via-slate-900 to-transparent">
               <div className="max-w-5xl mx-auto relative">
                 <div className="flex items-center gap-4 bg-slate-950/60 backdrop-blur-3xl border border-white/10 p-3 rounded-[3.5rem] focus-within:border-blue-500/50 focus-within:shadow-[0_0_40px_rgba(37,99,235,0.15)] transition-all duration-500 shadow-2xl">
-                  <button className="p-4 text-slate-500 hover:text-blue-500 hover:bg-white/5 rounded-full transition-all"><Paperclip size={24}/></button>
-                  <input 
-                    type="text" 
+                  <button className="p-4 text-slate-500 hover:text-blue-500 hover:bg-white/5 rounded-full transition-all"><Paperclip size={24} /></button>
+                  <input
+                    type="text"
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleSendChat()}
                     placeholder="Ask the Neural Core anything about your career..."
                     className="flex-1 bg-transparent py-4 text-xl outline-none placeholder:text-slate-600 font-semibold italic uppercase tracking-tight"
                   />
-                  <button 
+                  <button
                     onClick={handleSendChat}
                     disabled={!input.trim() || isLoading}
                     className="p-5 bg-blue-600 text-white rounded-[2.5rem] hover:bg-white hover:text-blue-600 disabled:opacity-20 transition-all shadow-[0_10px_30px_rgba(37,99,235,0.4)] active:scale-90"
@@ -348,19 +348,19 @@ export default function AiAssistantPage() {
           </div>
 
           {/* ── CV ANALYZER VIEW ── */}
-          <ToolLayout 
+          <ToolLayout
             visible={activeTool === 'cv-analyzer'}
             icon={<FileText className="text-blue-500" size={48} />}
             title="NEURAL CV ANALYZER"
             subtitle="Deploy your CV signature for horizontal skill-sync analysis."
           >
-            <textarea 
+            <textarea
               value={cvText}
               onChange={e => setCvText(e.target.value)}
               placeholder="PASTE CV RAW TEXT HERE..."
               className="w-full h-96 p-8 bg-white/5 border border-white/10 rounded-[3.5rem] outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-xl font-semibold italic uppercase leading-relaxed shadow-inner placeholder:text-slate-800"
             />
-            <button 
+            <button
               onClick={handleAnalyzeCv}
               disabled={!cvText.trim() || isLoading}
               className="w-full mt-10 bg-blue-600 text-white py-6 rounded-[3rem] font-extrabold text-2xl flex items-center justify-center gap-4 hover:bg-white hover:text-blue-600 disabled:opacity-20 transition-all shadow-[0_20px_50px_rgba(37,99,235,0.3)] uppercase italic tracking-widest"
@@ -371,7 +371,7 @@ export default function AiAssistantPage() {
           </ToolLayout>
 
           {/* ── COVER LETTER VIEW ── */}
-          <ToolLayout 
+          <ToolLayout
             visible={activeTool === 'cover-letter'}
             icon={<Sparkles className="text-indigo-400" size={48} />}
             title="MANIFESTO GENERATOR"
@@ -380,7 +380,7 @@ export default function AiAssistantPage() {
             <div className="space-y-10">
               <div className="grid grid-cols-2 gap-8">
                 <ToolInput label="NODE ID (OPTIONAL)">
-                  <input 
+                  <input
                     type="number"
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-indigo-500/50 transition-all text-lg font-semibold italic text-white"
                     placeholder="e.g. 104"
@@ -388,7 +388,7 @@ export default function AiAssistantPage() {
                   />
                 </ToolInput>
                 <ToolInput label="SIGNAL TONE">
-                  <select 
+                  <select
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-indigo-500/50 transition-all text-lg font-semibold italic text-white appearance-none uppercase"
                     onChange={e => setCoverLetterContext(prev => ({ ...prev, tone: e.target.value }))}
                   >
@@ -400,13 +400,13 @@ export default function AiAssistantPage() {
                 </ToolInput>
               </div>
               <ToolInput label="EXTRA CONTEXT (TARGET DIRECTIVES)">
-                <textarea 
+                <textarea
                   className="w-full h-48 px-8 py-6 bg-white/5 border border-white/10 rounded-[2.5rem] outline-none focus:border-indigo-500/50 transition-all text-lg font-semibold italic text-white uppercase"
                   placeholder="DEPLOY TARGET DETAILS..."
                   onChange={e => setCoverLetterContext(prev => ({ ...prev, extra: e.target.value }))}
                 />
               </ToolInput>
-              <button 
+              <button
                 onClick={handleDraftCoverLetter}
                 disabled={isLoading}
                 className="w-full bg-indigo-600 text-white py-6 rounded-[3rem] font-extrabold text-2xl flex items-center justify-center gap-4 hover:bg-white hover:text-indigo-600 transition-all shadow-[0_20px_50px_rgba(79,70,229,0.3)] uppercase italic tracking-widest"
@@ -417,7 +417,7 @@ export default function AiAssistantPage() {
           </ToolLayout>
 
           {/* ── MESSAGE GEN VIEW ── */}
-          <ToolLayout 
+          <ToolLayout
             visible={activeTool === 'message-gen'}
             icon={<Mail className="text-amber-500" size={48} />}
             title="SIGNAL BROADCASTER"
@@ -426,7 +426,7 @@ export default function AiAssistantPage() {
             <div className="space-y-8">
               <div className="grid grid-cols-2 gap-8">
                 <ToolInput label="RECIPIENT SIGNATURE">
-                  <input 
+                  <input
                     type="text"
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white"
                     placeholder="e.g. JOHN DOE"
@@ -434,7 +434,7 @@ export default function AiAssistantPage() {
                   />
                 </ToolInput>
                 <ToolInput label="SIGNAL PURPOSE">
-                  <input 
+                  <input
                     type="text"
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white"
                     placeholder="e.g. FOLLOW-UP"
@@ -444,7 +444,7 @@ export default function AiAssistantPage() {
               </div>
               <div className="grid grid-cols-2 gap-8">
                 <ToolInput label="PROTOCOL TONE">
-                  <select 
+                  <select
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white appearance-none uppercase"
                     onChange={e => setMessageContext(prev => ({ ...prev, tone: e.target.value }))}
                   >
@@ -454,7 +454,7 @@ export default function AiAssistantPage() {
                   </select>
                 </ToolInput>
                 <ToolInput label="TARGET NODE ID">
-                  <input 
+                  <input
                     type="number"
                     className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white"
                     placeholder="e.g. 101"
@@ -463,13 +463,13 @@ export default function AiAssistantPage() {
                 </ToolInput>
               </div>
               <ToolInput label="EXTRA CHANNEL DATA">
-                <textarea 
+                <textarea
                   className="w-full h-32 px-8 py-6 bg-white/5 border border-white/10 rounded-[2.5rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white uppercase"
                   placeholder="SPECIFY TARGET DIRECTIVES..."
                   onChange={e => setMessageContext(prev => ({ ...prev, extra: e.target.value }))}
                 />
               </ToolInput>
-              <button 
+              <button
                 onClick={handleDraftMessage}
                 disabled={isLoading}
                 className="w-full bg-amber-600 text-white py-6 rounded-[3rem] font-extrabold text-2xl flex items-center justify-center gap-4 hover:bg-white hover:text-amber-600 transition-all shadow-[0_20px_50px_rgba(217,119,6,0.3)] uppercase italic tracking-widest"
@@ -487,12 +487,12 @@ export default function AiAssistantPage() {
 
 function NavItem({ active, onClick, icon, label, badge }: any) {
   return (
-    <button 
+    <button
       onClick={onClick}
       className={clsx(
         "w-full flex items-center justify-between px-6 py-4 rounded-3xl transition-all duration-300 group",
-        active 
-          ? "bg-blue-600 text-white shadow-[0_10px_30px_rgba(37,99,235,0.4)] scale-105" 
+        active
+          ? "bg-blue-600 text-white shadow-[0_10px_30px_rgba(37,99,235,0.4)] scale-105"
           : "text-slate-500 hover:bg-white/5 hover:text-white"
       )}
     >
@@ -555,8 +555,8 @@ function renderAiData(data: any) {
     return (
       <div className="space-y-10">
         <div className="grid grid-cols-2 gap-6">
-          <StatBox label="NEURAL EXP" value={`${data.experienceYears} CYCLES`} icon={<Target size={18}/>} color="blue" />
-          <StatBox label="RANK TIER" value="S-Class" icon={<Sparkles size={18}/>} color="purple" />
+          <StatBox label="NEURAL EXP" value={`${data.experienceYears} CYCLES`} icon={<Target size={18} />} color="blue" />
+          <StatBox label="RANK TIER" value="S-Class" icon={<Sparkles size={18} />} color="purple" />
         </div>
         <div>
           <h4 className="text-[10px] font-extrabold text-slate-500 uppercase tracking-[0.5em] mb-6 italic ml-2">CALIBRATED SKILLSETS</h4>
@@ -592,8 +592,8 @@ function renderAiData(data: any) {
           </div>
         )}
         <div className="p-8 bg-slate-950/60 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] shadow-2xl relative group overflow-hidden">
-           <div className="absolute inset-0 bg-blue-600/[0.02] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <button 
+          <div className="absolute inset-0 bg-blue-600/[0.02] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <button
             onClick={() => {
               navigator.clipboard.writeText(data.content);
               toast.success('Signal buffered to local registry!');
@@ -601,7 +601,7 @@ function renderAiData(data: any) {
             className="absolute top-4 right-4 p-3 bg-white/5 text-slate-500 hover:text-blue-500 rounded-xl opacity-0 group-hover:opacity-100 transition-all border border-white/10 backdrop-blur-3xl"
             title="Copy Signal"
           >
-            <FileText size={20}/>
+            <FileText size={20} />
           </button>
           <p className="text-xl text-slate-300 leading-relaxed font-semibold italic uppercase tracking-tight pr-10">{data.content}</p>
         </div>
