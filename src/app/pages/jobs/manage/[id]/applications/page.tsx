@@ -2,14 +2,14 @@
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { 
-  ArrowLeft, 
-  User, 
-  Mail, 
-  Calendar, 
-  Clock, 
-  CheckCircle2, 
-  XCircle, 
+import {
+  ArrowLeft,
+  User,
+  Mail,
+  Calendar,
+  Clock,
+  CheckCircle2,
+  XCircle,
   Loader2,
   MoreVertical,
   ChevronDown,
@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import { getApplicationsByJob, updateApplicationStatus } from '@/src/app/services/jobApplicationService';
 import { getJobById } from '@/src/app/services/jobService';
-import { getProfileByUserId } from '@/src/app/services/profileService'; 
+import { getProfileByUserId } from '@/src/app/services/profileService';
 import { clsx } from 'clsx';
 import toast, { Toaster } from 'react-hot-toast';
 import { ApplicationStatus } from '@/src/app/types/jobApplication';
@@ -69,7 +69,7 @@ export default function JobApplicationsPage() {
   return (
     <div className="min-h-screen bg-slate-950 pb-32 relative overflow-hidden text-white/90 selection:bg-blue-600/30 font-sans">
       <Toaster position="top-right" />
-      
+
       {/* ── BACKGROUND AMBIENCE ── */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[60%] h-[60%] bg-blue-600/10 blur-[180px] rounded-full opacity-60"></div>
@@ -78,27 +78,27 @@ export default function JobApplicationsPage() {
       </div>
 
       <div className="container mx-auto px-6 relative z-10 pt-32">
-        
+
         {/* ── HEADER HUD ── */}
         <div className="mb-16">
-          <button 
+          <button
             onClick={() => router.back()}
             className="flex items-center gap-4 text-[10px] font-extrabold text-slate-500 hover:text-white uppercase tracking-[0.3em] mb-10 transition-all italic group"
           >
             <ArrowLeft size={18} className="group-hover:-translate-x-2 transition-transform duration-500" /> Back to Base Management
           </button>
-          
+
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
             <div>
-               <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-blue-600/10 text-blue-400 text-[9px] font-extrabold uppercase tracking-[0.3em] mb-6 border border-blue-500/20 italic">
-                  <Pulse size={12} className="animate-pulse" /> Neural Response Log
-               </div>
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-blue-600/10 text-blue-400 text-[9px] font-extrabold uppercase tracking-[0.3em] mb-6 border border-blue-500/20 italic">
+                <Pulse size={12} className="animate-pulse" /> Neural Response Log
+              </div>
               <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tighter mb-4 italic uppercase leading-none">Applicants<span className="text-blue-500">.</span></h1>
               <p className="text-xl text-slate-500 font-semibold italic uppercase tracking-tight">
                 IDENTIFIED SIGNALS FOR: <span className="text-blue-500">{job?.title}</span>
               </p>
             </div>
-            
+
             <div className="bg-white/5 backdrop-blur-3xl p-8 rounded-[3.5rem] border border-white/10 shadow-3xl flex items-center gap-10">
               <StatItem label="TOTAL_LOG" value={applications?.length || 0} color="blue" />
               <div className="w-px h-12 bg-white/5"></div>
@@ -127,9 +127,9 @@ export default function JobApplicationsPage() {
         ) : (
           <div className="space-y-6">
             {applications?.map((app) => (
-              <ApplicantRow 
-                key={app.id} 
-                application={app} 
+              <ApplicantRow
+                key={app.id}
+                application={app}
                 onStatusChange={(status: ApplicationStatus) => statusMutation.mutate({ id: app.id, status })}
                 isUpdating={statusMutation.isPending && statusMutation.variables?.id === app.id}
               />
@@ -146,6 +146,7 @@ function ApplicantRow({ application, onStatusChange, isUpdating }: any) {
     queryKey: ['profile', application.userId],
     queryFn: () => getProfileByUserId(application.userId),
   });
+  const router = useRouter();
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -201,25 +202,25 @@ function ApplicantRow({ application, onStatusChange, isUpdating }: any) {
       </div>
 
       <div className="flex items-center gap-4 w-full lg:w-auto shrink-0 justify-center">
-        <button 
+        <button
           onClick={() => router.push(`/pages/profile/${application.userId}`)}
           className="flex-1 lg:flex-none px-8 py-4 bg-white/5 border border-white/5 text-slate-400 rounded-xl font-extrabold text-[10px] uppercase tracking-[0.2em] hover:bg-white hover:text-slate-900 transition-all italic active:scale-95"
         >
           View Bio
         </button>
-        
+
         <div className="relative group/menu flex-1 lg:flex-none">
-          <button 
+          <button
             disabled={isUpdating}
             className="w-full lg:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-xl font-extrabold text-[10px] uppercase tracking-[0.3em] hover:scale-[1.05] transition-all shadow-2xl shadow-blue-600/20 disabled:opacity-50 active:scale-95 italic"
           >
             {isUpdating ? <Loader2 size={16} className="animate-spin" /> : <>COMMANDS <ChevronDown size={14} /></>}
           </button>
-          
+
           <div className="absolute right-0 top-full mt-4 w-56 bg-slate-900 border border-white/10 rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.8)] opacity-0 invisible group-focus-within:opacity-100 group-focus-within:visible transition-all z-50 overflow-hidden backdrop-blur-2xl">
-            <StatusOption label="Set Interview Loop" status="Interview" onClick={() => onStatusChange('Interview')} icon={<Clock size={14}/>} />
-            <StatusOption label="Authorize Accept" status="Accepted" onClick={() => onStatusChange('Accepted')} icon={<CheckCircle2 size={14}/>} color="text-emerald-400" />
-            <StatusOption label="Terminate Link" status="Rejected" onClick={() => onStatusChange('Rejected')} icon={<XCircle size={14}/>} color="text-red-500" />
+            <StatusOption label="Set Interview Loop" status="Interview" onClick={() => onStatusChange('Interview')} icon={<Clock size={14} />} />
+            <StatusOption label="Authorize Accept" status="Accepted" onClick={() => onStatusChange('Accepted')} icon={<CheckCircle2 size={14} />} color="text-emerald-400" />
+            <StatusOption label="Terminate Link" status="Rejected" onClick={() => onStatusChange('Rejected')} icon={<XCircle size={14} />} color="text-red-500" />
           </div>
         </div>
       </div>
@@ -229,7 +230,7 @@ function ApplicantRow({ application, onStatusChange, isUpdating }: any) {
 
 function StatusOption({ label, status, onClick, icon, color = "text-slate-400" }: any) {
   return (
-    <button 
+    <button
       onClick={onClick}
       className={clsx(
         "w-full text-left px-5 py-4 text-[10px] font-extrabold uppercase tracking-widest flex items-center gap-4 hover:bg-white/5 transition-all italic",
