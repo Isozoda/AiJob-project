@@ -1,0 +1,38 @@
+.premium-image-modal .ant-modal-content {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 2rem !important;
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.premium-image-modal .ant-modal-mask {
+  backdrop-filter: blur(24px) !important;
+  background: rgba(2, 6, 23, 0.8) !important;
+}
+
+.premium-dragger {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 2px dashed rgba(255, 255, 255, 0.05) !important;
+  border-radius: 2.5rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.premium-dragger:hover {
+  border-color: rgba(37, 99, 235, 0.3) !important;
+  background: rgba(37, 99, 235, 0.05) !important;
+}
+
+.premium-dragger .ant-upload-drag-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ant-modal-close-x {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+}

@@ -48,6 +48,7 @@ import type { Post } from '@/src/app/types/post';
 import image1 from "./images/Container.svg";
 import { useProfileByUserId } from './hooks/useProfile';
 import { clsx } from 'clsx';
+import ImagePickerModal from '../components/ImagePickerModal';
 
 // ─── MAIN SMART PAGE ────────────────────────────────────────
 export default function Homepage() {
@@ -192,13 +193,11 @@ function FeedView() {
   const likeMutation = useLikePost();
   const repostMutation = useRepost();
 
-  const { showCreateModal, openCreateModal, closeCreateModal } = usePostStore();
-  const [newPostContent, setNewPostContent] = useState('');
-  const [newPostImage, setNewPostImage] = useState('');
+  const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
 
   // ── PAGINATION LOGIC ──
   const [currentPage, setCurrentPage] = useState(1);
-  const POSTS_PER_PAGE = 11;
+  const POSTS_PER_PAGE = 12;
   const totalPages = posts ? Math.ceil(posts.length / POSTS_PER_PAGE) : 0;
   const paginatedPosts = posts ? posts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE) : [];
 
@@ -219,15 +218,12 @@ function FeedView() {
     ? `${myProfile.firstName[0]}${myProfile.lastName[0]}`.toUpperCase()
     : 'ME';
 
-  const handleCreatePost = async () => {
-    if (!newPostContent.trim()) return;
+  const handleCreatePost = async (content: string, imageUrl: string) => {
     await createPostMutation.mutateAsync({
-      content: newPostContent,
-      imageUrl: newPostImage || null,
+      content: content,
+      imageUrl: imageUrl || null,
     });
-    setNewPostContent('');
-    setNewPostImage('');
-    closeCreateModal();
+    setIsImagePickerOpen(false);
   };
 
   const timeAgo = (dateStr: string) => {
@@ -319,7 +315,7 @@ function FeedView() {
                 )}
               </Link>
               <button
-                onClick={openCreateModal}
+                onClick={() => setIsImagePickerOpen(true)}
                 className="flex-1 h-20 bg-white/5 border border-white/5 rounded-[2.2rem] text-left px-10 text-sm text-slate-400 font-extrabold uppercase tracking-[0.2em] hover:bg-white/10 hover:border-blue-500/30 transition-all active:scale-[0.98] shadow-inner backdrop-blur-sm"
               >
                 Broadcast a thought...
@@ -327,11 +323,18 @@ function FeedView() {
             </div>
 
             <div className="flex items-center gap-6 relative z-10">
-              <PostTypeBtn onClick={openCreateModal} icon={<ImageIcon size={20} className="text-blue-400" />} label="Visuals" bg="bg-blue-400/10" />
-              <PostTypeBtn onClick={openCreateModal} icon={<VideoIcon size={20} className="text-emerald-400" />} label="Continuity" bg="bg-emerald-400/10" />
-              <PostTypeBtn onClick={openCreateModal} icon={<Newspaper size={20} className="text-amber-400" />} label="Directive" bg="bg-amber-400/10" />
+              <PostTypeBtn onClick={() => setIsImagePickerOpen(true)} icon={<ImageIcon size={20} className="text-blue-400" />} label="Visuals" bg="bg-blue-400/10" />
+              <PostTypeBtn onClick={() => setIsImagePickerOpen(true)} icon={<VideoIcon size={20} className="text-emerald-400" />} label="Continuity" bg="bg-emerald-400/10" />
+              <PostTypeBtn onClick={() => setIsImagePickerOpen(true)} icon={<Newspaper size={20} className="text-amber-400" />} label="Directive" bg="bg-amber-400/10" />
             </div>
           </div>
+
+          <ImagePickerModal 
+            isOpen={isImagePickerOpen}
+            onClose={() => setIsImagePickerOpen(false)}
+            onPost={handleCreatePost}
+            isPosting={createPostMutation.isPending}
+          />
 
           {/* Advanced Pagination UI */}
           {totalPages > 1 && (
@@ -400,7 +403,7 @@ function FeedView() {
               </div>
               <h3 className="text-4xl font-black text-slate-900 italic uppercase mb-4 tracking-tighter">Zero Broadcasts.</h3>
               <p className="text-slate-400 font-bold max-w-sm mx-auto mb-12">The neural stream is currently silent. Be the first to synchronize your signal.</p>
-              <button onClick={openCreateModal} className="px-12 py-5 bg-slate-900 text-white rounded-[2rem] font-black text-lg hover:bg-blue-600 transition-all flex items-center gap-3 mx-auto shadow-2xl">
+              <button onClick={() => setIsImagePickerOpen(true)} className="px-12 py-5 bg-slate-900 text-white rounded-[2rem] font-black text-lg hover:bg-blue-600 transition-all flex items-center gap-3 mx-auto shadow-2xl">
                 INITIALIZE SIGNAL <Plus size={20} />
               </button>
             </div>
@@ -471,73 +474,6 @@ function FeedView() {
         </aside>
       </div>
 
-      {showCreateModal && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/80 backdrop-blur-2xl animate-in fade-in duration-500" onClick={closeCreateModal}>
-          <div className="bg-slate-900 border border-white/10 rounded-[4rem] shadow-[0_60px_150px_-20px_rgba(0,0,0,0.8)] w-full max-w-[700px] mx-4 relative overflow-hidden animate-in zoom-in-95 duration-500" onClick={e => e.stopPropagation()}>
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/20 blur-[100px] rounded-full"></div>
-            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-600/10 blur-[100px] rounded-full"></div>
-
-            {/* Header */}
-            <div className="px-12 py-10 flex items-center justify-between border-b border-white/5 relative z-10 bg-white/5">
-              <div className="flex items-center gap-6">
-                <div className="w-20 h-20 rounded-[2rem] bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white italic font-black shadow-2xl text-2xl tracking-tighter">
-                  {myInitials}
-                </div>
-                <div>
-                  <h4 className="text-2xl font-black text-white italic uppercase tracking-tighter">Broadcast Signal<span className="text-blue-500">.</span></h4>
-                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Transmission targeting Unified Network</p>
-                </div>
-              </div>
-              <button
-                onClick={closeCreateModal}
-                className="w-16 h-16 rounded-[1.8rem] hover:bg-white/10 flex items-center justify-center transition-all bg-white/5 border border-white/10 shadow-2xl active:scale-90 group"
-              >
-                <X size={28} className="text-slate-400 group-hover:text-white transition-colors" />
-              </button>
-            </div>
-
-            <div className="p-12 relative z-10">
-              <textarea
-                value={newPostContent}
-                onChange={e => setNewPostContent(e.target.value)}
-                placeholder="Synchronize your signal with the network..."
-                className="w-full h-56 resize-none outline-none bg-transparent text-3xl font-extrabold text-white placeholder:text-slate-700 italic leading-snug tracking-tight"
-                autoFocus
-              />
-              <div className="mt-10 relative group">
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-blue-500/50">
-                  <ImageIcon size={20} />
-                </div>
-                <input
-                  type="text"
-                  value={newPostImage}
-                  onChange={e => setNewPostImage(e.target.value)}
-                  placeholder="Insert asset URL (Visual/Continuity)"
-                  className="w-full pl-16 pr-8 py-6 bg-white/5 border border-white/5 rounded-[2rem] outline-none text-sm font-black text-white placeholder:text-slate-600 focus:border-blue-500/50 transition-all font-sans"
-                />
-              </div>
-            </div>
-
-            <div className="px-12 py-12 border-t border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-10 relative z-10 bg-white/5">
-              <div className="flex items-center gap-6">
-                <button className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-blue-400 transition-all">
-                  <ImageIcon size={20} /> ASSET
-                </button>
-                <button className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-emerald-400 transition-all">
-                  <VideoIcon size={20} /> CONTINUITY
-                </button>
-              </div>
-              <button
-                onClick={handleCreatePost}
-                disabled={createPostMutation.isPending || !newPostContent.trim()}
-                className="px-16 py-6 bg-blue-600 text-white rounded-[2rem] font-black text-xl hover:bg-white hover:text-slate-900 transition-all disabled:opacity-20 active:scale-95 shadow-[0_20px_50px_rgba(37,99,235,0.3)] flex items-center gap-4 italic uppercase tracking-tighter"
-              >
-                {createPostMutation.isPending ? 'SYNCING...' : 'INITIATE SYNC'} <SendHorizontal size={24} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
