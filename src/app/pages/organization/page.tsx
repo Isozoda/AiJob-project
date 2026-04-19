@@ -70,49 +70,51 @@ export default function CompaniesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 selection:bg-blue-100 selection:text-blue-700 font-sans">
+    <div className="min-h-screen bg-slate-900 selection:bg-blue-500/30 selection:text-blue-200 font-sans relative overflow-hidden">
       <Toaster position="top-right" />
 
-      {/* ── AMBIENT DECOR ── */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-blue-500/5 blur-[100px] rounded-full"></div>
-        <div className="absolute bottom-[10%] right-[-10%] w-[50%] h-[50%] bg-indigo-500/5 blur-[120px] rounded-full"></div>
+      {/* ── BACKGROUND AMBIENCE ── */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[50%] h-[50%] bg-blue-600/10 blur-[150px] rounded-full opacity-50 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-indigo-600/10 blur-[150px] rounded-full opacity-50"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none"></div>
       </div>
 
+
       {/* ── HERO SECTION ── */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 border border-blue-100 text-[10px] font-black uppercase tracking-[0.2em] mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <Sparkles size={12} /> The New Era of Talent
+      <section className="relative pt-40 pb-24 z-10">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
+            <div className="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-black uppercase tracking-[0.4em] mb-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+              <Sparkles size={14} className="animate-pulse" /> THE NEURAL ERA OF NETWORKED STUDIOS
             </div>
-            <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tighter leading-[0.9] text-slate-900 animate-in fade-in slide-in-from-bottom-6 duration-700">
-              Discover <span className="text-blue-600 italic">Elite</span> <br className="hidden md:block" /> Studios.
+            <h1 className="text-7xl md:text-9xl font-black mb-12 tracking-tighter leading-[0.85] text-white italic uppercase animate-in fade-in slide-in-from-bottom-6 duration-1000">
+              ARCHITECT <span className="text-blue-500">ELITE</span> <br className="hidden md:block" /> NETWORKS<span className="text-blue-500">.</span>
             </h1>
-            <p className="text-xl text-slate-500 font-medium leading-relaxed max-w-2xl mb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-              Connect with extraordinary organizations pushing the boundaries of innovation. Your next chapter begins at a high-performance workspace.
+            <p className="text-xl md:text-2xl text-slate-400 font-bold leading-relaxed max-w-3xl mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000 opacity-80 italic">
+              Connect with extraordinary high-performance entities. Synchronize your career objective with the world's most innovative studios.
             </p>
 
             <form
               onSubmit={handleSearch}
-              className="w-full max-w-3xl relative p-2 bg-white rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 transition-all duration-500 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] group"
+              className="w-full max-w-4xl relative p-3 bg-slate-900/60 backdrop-blur-3xl rounded-[3.5rem] shadow-2xl border border-white/10 transition-all duration-500 hover:border-blue-500/30 group"
             >
-              <div className="flex flex-col md:flex-row items-center gap-2">
-                <div className="flex-1 flex items-center px-6 gap-3 w-full">
-                  <Search className="text-slate-300 group-focus-within:text-blue-500 transition-colors" size={24} />
+              <div className="flex flex-col md:flex-row items-center gap-3">
+                <div className="flex-1 flex items-center px-8 gap-4 w-full">
+                  <Search className="text-blue-500 group-focus-within:scale-125 transition-transform" size={28} />
                   <input
                     type="text"
-                    placeholder="Search by studio name or industry..."
+                    placeholder="Search studio name or Industry signal..."
                     value={searchInput}
                     onChange={e => setSearchInput(e.target.value)}
-                    className="w-full py-5 bg-transparent outline-none text-slate-900 font-bold text-lg placeholder:text-slate-300"
+                    className="w-full py-6 bg-transparent outline-none text-white font-black text-xl italic placeholder:text-slate-600 uppercase tracking-tight"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full md:w-auto px-12 py-5 bg-slate-900 text-white rounded-[2rem] font-black text-lg hover:bg-slate-800 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-xl shadow-slate-900/10"
+                  className="w-full md:w-auto px-16 py-6 bg-blue-600 text-white rounded-[2.8rem] font-black text-xl hover:bg-white hover:text-blue-600 transition-all active:scale-95 flex items-center justify-center gap-4 shadow-2xl shadow-blue-600/30 uppercase italic tracking-[0.1em]"
                 >
-                  Explore <ArrowRight size={20} />
+                  Sync <ArrowRight size={24} />
                 </button>
               </div>
             </form>
@@ -124,136 +126,140 @@ export default function CompaniesPage() {
       <main className="container mx-auto px-6 pb-40 relative z-10">
         <div className="lg:col-span-12">
 
-          {/* My Studios - Clean horizontal pill */}
+          {/* My Studios - Premium Dark Pills */}
           {myOrgs && myOrgs.length > 0 && (
-            <div className="mb-20">
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6 flex items-center gap-3">
-                <Globe size={14} className="text-blue-600" /> Your Managed Studios
+            <div className="mb-24">
+              <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.5em] mb-8 flex items-center gap-4 italic opacity-80">
+                <Globe size={16} className="text-blue-500" /> Managed Node Registry
               </h3>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-6">
                 {myOrgs.map(org => (
-                  <Link key={org.id} href={`/pages/organization/${org.id}`} className="group flex items-center gap-4 bg-white border border-slate-100 pl-4 pr-6 py-3 rounded-2xl hover:border-blue-200 hover:shadow-lg hover:shadow-blue-500/5 transition-all active:scale-95">
-                    <div className="w-8 h-8 rounded-xl overflow-hidden bg-slate-50 border border-slate-100 shrink-0 flex items-center justify-center">
-                      {org.logoUrl ? <img src={org.logoUrl} className="w-full h-full object-cover" /> : <Building2 size={14} className="text-slate-300" />}
+                  <Link key={org.id} href={`/pages/organization/${org.id}`} className="group flex items-center gap-5 bg-white/5 border border-white/5 pl-5 pr-8 py-4 rounded-[2rem] hover:bg-blue-600/10 hover:border-blue-500/30 transition-all active:scale-95 shadow-2xl backdrop-blur-md">
+                    <div className="w-12 h-12 rounded-[1.2rem] overflow-hidden bg-slate-800 border border-white/10 shrink-0 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      {org.logoUrl ? <img src={org.logoUrl} className="w-full h-full object-cover" /> : <Building2 size={18} className="text-slate-600" />}
                     </div>
-                    <span className="text-sm font-black text-slate-700 group-hover:text-blue-600 transition-colors">{org.name}</span>
-                    <ArrowRight size={14} className="text-slate-300 group-hover:translate-x-1 group-hover:text-blue-500 transition-all font-black" />
+                    <span className="text-sm font-black text-white italic uppercase tracking-tight group-hover:text-blue-400">{org.name}</span>
+                    <ArrowRight size={16} className="text-slate-600 group-hover:translate-x-1 group-hover:text-blue-500 transition-all" />
                   </Link>
                 ))}
               </div>
             </div>
           )}
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
             <div>
-              <h2 className="text-4xl font-black text-slate-900 tracking-tighter flex items-center gap-4 uppercase italic">
-                Active Entities.
+              <h2 className="text-5xl font-black text-white tracking-tighter flex items-center gap-6 uppercase italic">
+                Active Entities<span className="text-blue-500">.</span>
               </h2>
-              <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.4em] mt-2">Showing {pagedData?.totalCount || 0} organizations in registry</p>
+              <p className="text-slate-500 font-black text-[11px] uppercase tracking-[0.5em] mt-4 italic opacity-60">Synchronized Directory // {pagedData?.totalCount || 0} nodes verified</p>
             </div>
 
-            <div className="flex items-center gap-2 bg-blue-600 text-white rounded-2xl px-5 py-2.5 shadow-lg shadow-blue-600/10">
-              <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-              <span className="text-[10px] font-black uppercase tracking-widest">LIVE DIRECTORY</span>
+            <div className="flex items-center gap-4 bg-blue-600 text-white rounded-2xl px-6 py-3 shadow-[0_10px_40px_rgba(37,99,235,0.4)] border border-blue-400/30">
+              <span className="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_10px_#fff]"></span>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] italic">Stream Live</span>
             </div>
           </div>
 
           {isPagedLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {[1, 2, 3, 4, 5, 6].map(i => <div key={i} className="h-80 bg-white border border-slate-100 rounded-[2.5rem] animate-pulse"></div>)}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {[1, 2, 3, 4, 5, 6].map(i => <div key={i} className="h-96 bg-white/5 border border-white/5 rounded-[4rem] animate-pulse"></div>)}
             </div>
           ) : isError ? (
-            <div className="bg-white rounded-[3rem] p-24 text-center border border-slate-100 shadow-sm">
-              <AlertCircle className="text-red-500 mx-auto mb-4" size={56} />
-              <h3 className="text-2xl font-black text-slate-900">Registry Disruption</h3>
-              <p className="text-slate-500 mt-2 font-medium">Internal data sync failed. Protocol restart recommended.</p>
+            <div className="bg-slate-900/60 backdrop-blur-3xl rounded-[4rem] p-24 text-center border border-white/5 shadow-2xl">
+              <AlertCircle className="text-red-500 mx-auto mb-8 animate-bounce" size={64} />
+              <h3 className="text-3xl font-black text-white italic uppercase tracking-tighter">Registry Sync Failed</h3>
+              <p className="text-slate-500 mt-4 text-xl font-bold italic opacity-80">Encryption mismatch detected. Re-initializing terminal protocol.</p>
             </div>
           ) : pagedData?.items.length === 0 ? (
-            <div className="bg-white rounded-[3rem] p-32 text-center border-2 border-dashed border-slate-100">
-              <Building className="text-slate-200 mx-auto mb-8" size={80} />
-              <h3 className="text-3xl font-black text-slate-900">No Entities Found</h3>
-              <p className="text-slate-500 mt-4 text-lg font-medium">The deep registry returned no matches for this signal.</p>
+            <div className="bg-slate-900/60 backdrop-blur-3xl rounded-[4rem] p-32 text-center border-2 border-dashed border-white/5">
+              <Building className="text-slate-800 mx-auto mb-10" size={100} />
+              <h3 className="text-4xl font-black text-white italic uppercase tracking-tighter">Void Detected</h3>
+              <p className="text-slate-500 mt-6 text-xl font-bold italic opacity-80">The networked stream has no entities matching this signal.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {pagedData?.items.map((org) => (
-                <OrganizationCard key={org.id} org={org} />
-              ))}
-            </div>
-          )}
-
-          {/* Pagination */}
-          {pagedData && pagedData.totalPages > 1 && (
-            <div className="mt-28 flex flex-col items-center gap-6">
-              <div className="flex items-center gap-4">
-                <button
-                  disabled={!pagedData.hasPrevious}
-                  onClick={() => setParams(p => ({ ...p, PageNumber: p.PageNumber - 1 }))}
-                  className="w-16 h-16 bg-white border border-slate-100 rounded-3xl flex items-center justify-center hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all disabled:opacity-30 disabled:hover:bg-white disabled:hover:text-slate-300 shadow-sm disabled:shadow-none active:scale-90"
-                >
-                  <ChevronLeft size={24} />
-                </button>
-
-                <div className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-100 rounded-[2.5rem] shadow-sm">
-                  {getPageNumbers().map((num, idx) => (
-                    <React.Fragment key={idx}>
-                      {num === '...' ? (
-                        <span className="w-10 h-10 flex items-center justify-center text-slate-300 text-xs font-black">•••</span>
-                      ) : (
-                        <button
-                          onClick={() => setParams(p => ({ ...p, PageNumber: num as number }))}
-                          className={clsx(
-                            "w-12 h-12 rounded-full flex items-center justify-center text-xs font-black transition-all",
-                            pagedData.page === num
-                              ? "bg-blue-600 text-white shadow-xl shadow-blue-600/30 scale-110"
-                              : "text-slate-400 hover:text-slate-900 hover:bg-slate-50"
-                          )}
-                        >
-                          {num}
-                        </button>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-
-                <button
-                  disabled={!pagedData.hasNext}
-                  onClick={() => setParams(p => ({ ...p, PageNumber: p.PageNumber + 1 }))}
-                  className="w-16 h-16 bg-white border border-slate-100 rounded-3xl flex items-center justify-center hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all disabled:opacity-30 shadow-sm active:scale-90"
-                >
-                  <ChevronRight size={24} />
-                </button>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                {pagedData?.items.map((org) => (
+                  <OrganizationCard key={org.id} org={org} />
+                ))}
               </div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em]">REGISTRY INDEX {pagedData.page} / {pagedData.totalPages}</p>
-            </div>
+
+              {/* Advanced Pagination UI */}
+              {pagedData && pagedData.totalPages > 1 && (
+                <div className="mt-32 flex flex-col items-center gap-8">
+                  <div className="flex items-center gap-6">
+                    <button
+                      disabled={!pagedData.hasPrevious}
+                      onClick={() => setParams(p => ({ ...p, PageNumber: p.PageNumber - 1 }))}
+                      className="w-16 h-16 bg-white/5 border border-white/10 rounded-[1.8rem] flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all disabled:opacity-10 active:scale-90 shadow-2xl backdrop-blur-xl"
+                    >
+                      <ChevronLeft size={28} />
+                    </button>
+
+                    <div className="flex items-center gap-3 px-3 py-3 bg-slate-950/60 border border-white/5 rounded-[2.5rem] backdrop-blur-3xl shadow-2xl">
+                      {getPageNumbers().map((num, idx) => (
+                        <React.Fragment key={idx}>
+                          {num === '...' ? (
+                            <span className="w-12 h-12 flex items-center justify-center text-slate-600 text-[10px] font-black tracking-widest leading-none mt-2">•••</span>
+                          ) : (
+                            <button
+                              onClick={() => setParams(p => ({ ...p, PageNumber: num as number }))}
+                              className={clsx(
+                                "w-14 h-14 rounded-[1.5rem] flex items-center justify-center text-xs font-black transition-all duration-300",
+                                pagedData.page === num
+                                  ? "bg-blue-600 text-white shadow-[0_10px_30px_rgba(37,99,235,0.4)] scale-110"
+                                  : "text-slate-500 hover:text-white hover:bg-white/10"
+                              )}
+                            >
+                              {typeof num === 'number' && num < 10 ? `0${num}` : num}
+                            </button>
+                          )}
+                        </React.Fragment>
+                      ))}
+                    </div>
+
+                    <button
+                      disabled={!pagedData.hasNext}
+                      onClick={() => setParams(p => ({ ...p, PageNumber: p.PageNumber + 1 }))}
+                      className="w-16 h-16 bg-white/5 border border-white/10 rounded-[1.8rem] flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all disabled:opacity-10 active:scale-90 shadow-2xl backdrop-blur-xl"
+                    >
+                      <ChevronRight size={28} />
+                    </button>
+                  </div>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.6em] italic opacity-60">REGISTRY INDEX {pagedData.page} / {pagedData.totalPages}</p>
+                </div>
+              )}
+            </>
           )}
         </div>
 
-        {/* BOTTOM CTA */}
-        <div className="mt-48 px-4">
-          <div className="relative bg-slate-900 rounded-[4rem] p-12 md:p-24 flex flex-col items-center text-center shadow-[0_50px_100px_-20px_rgba(15,23,42,0.3)] overflow-hidden">
-            <div className="absolute top-0 right-0 w-[40%] h-full bg-blue-500/10 blur-[100px] rounded-full translate-x-1/2"></div>
+        {/* BOTTOM CTA HUD */}
+        <div className="mt-56 px-4">
+          <div className="relative bg-slate-900/40 backdrop-blur-3xl rounded-[5rem] p-16 md:p-32 flex flex-col items-center text-center shadow-2xl overflow-hidden border border-white/10 group hover:border-blue-500/20 transition-all duration-700">
+            <div className="absolute top-0 right-0 w-[50%] h-full bg-blue-600/10 blur-[150px] rounded-full translate-x-1/4 animate-pulse"></div>
+            <div className="absolute bottom-0 left-0 w-[40%] h-full bg-indigo-600/10 blur-[120px] rounded-full -translate-x-1/4"></div>
+            
             <div className="relative z-10">
-              <div className="w-24 h-24 bg-white/5 backdrop-blur-3xl rounded-[2.5rem] flex items-center justify-center mb-10 border border-white/10 shadow-2xl mx-auto">
-                <Zap className="text-white fill-white" size={40} />
+              <div className="w-28 h-28 bg-blue-600/10 backdrop-blur-3xl rounded-[3rem] flex items-center justify-center mb-12 border border-blue-500/20 shadow-2xl mx-auto group-hover:scale-110 transition-transform duration-500">
+                <Zap className="text-blue-400 fill-blue-400" size={48} />
               </div>
-              <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.85] mb-10 italic uppercase">Shape the <br /> Future.</h2>
-              <p className="text-xl md:text-2xl text-slate-400 font-medium max-w-2xl mb-14 leading-relaxed">
-                Establish your studio presence and attract world-class talent using our proprietary AI recruitment core.
+              <h2 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.8] mb-12 italic uppercase">ARCHITECT THE <br /> FUTURE<span className="text-blue-500">.</span></h2>
+              <p className="text-xl md:text-2xl text-slate-400 font-bold max-w-2xl mb-20 leading-relaxed italic opacity-80">
+                Establish your enterprise node in the unified network and source world-class talent via our neural recruitment core.
               </p>
               <button
                 onClick={() => router.push('/pages/organization/create')}
-                className="px-16 py-7 bg-white text-slate-900 rounded-[2.5rem] font-black text-xl hover:shadow-2xl hover:scale-105 transition-all active:scale-95 flex items-center justify-center gap-4 group/btn"
+                className="px-20 py-8 bg-blue-600 text-white rounded-[3rem] font-black text-2xl hover:bg-white hover:text-blue-600 shadow-2xl shadow-blue-600/30 hover:shadow-white/20 transition-all active:scale-95 flex items-center justify-center gap-6 group/btn uppercase italic tracking-[0.05em]"
               >
-                Register Studio <Plus size={28} strokeWidth={4} className="group-hover/btn:rotate-90 transition-transform duration-500" />
+                Register Node <Plus size={32} strokeWidth={4} className="group-hover/btn:rotate-90 transition-transform duration-500" />
               </button>
             </div>
           </div>
         </div>
       </main>
 
-      <footer className="py-24 border-t border-slate-100 flex justify-center opacity-10 select-none bg-white">
-        <h1 className="text-[14vw] font-black tracking-tighter leading-none uppercase text-slate-900">STUDIOS</h1>
+      <footer className="py-32 border-t border-white/5 flex justify-center opacity-5 select-none bg-transparent">
+        <h1 className="text-[14vw] font-black tracking-tighter leading-none uppercase text-white italic">STUDIOS</h1>
       </footer>
     </div>
   );
@@ -261,51 +267,57 @@ export default function CompaniesPage() {
 
 function OrganizationCard({ org }: { org: any }) {
   return (
-    <div className="group relative bg-white rounded-[3.5rem] p-10 border border-slate-100 hover:border-blue-200 shadow-sm hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.06)] transition-all duration-500 flex flex-col h-full">
-      <div className="flex items-start justify-between gap-6 mb-10 relative z-10">
-        <div className="w-20 h-20 bg-slate-50 rounded-[1.8rem] flex items-center justify-center border border-slate-100 group-hover:bg-white group-hover:border-blue-100 transition-all duration-500 shadow-sm group-hover:scale-110 overflow-hidden">
+    <div className="group relative bg-slate-900/40 backdrop-blur-3xl rounded-[4rem] p-10 border border-white/5 hover:border-blue-500/30 shadow-2xl hover:shadow-[0_40px_100px_-20px_rgba(37,99,235,0.15)] transition-all duration-700 flex flex-col h-full overflow-hidden">
+      {/* Decorative gradient overlay */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-[50px] rounded-full -translate-x-4 translate-y-4 group-hover:bg-blue-500/10 transition-all duration-700"></div>
+
+      <div className="flex items-start justify-between gap-6 mb-12 relative z-10">
+        <div className="w-24 h-24 bg-slate-800 rounded-[2rem] flex items-center justify-center border border-white/5 group-hover:border-blue-500/40 transition-all duration-500 shadow-2xl group-hover:scale-110 overflow-hidden backdrop-blur-md">
           {org.logoUrl ? (
             <img src={org.logoUrl} alt={org.name} className="w-full h-full object-cover" />
           ) : (
-            <Building2 size={36} className="text-slate-200" />
+            <Building2 size={40} className="text-slate-600" />
           )}
         </div>
-        <div className="px-5 py-2 bg-slate-50 text-slate-400 border border-slate-100 rounded-full text-[9px] font-black uppercase tracking-[0.2em] group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:border-blue-100 transition-colors">
-          {org.type}
+        <div className="px-6 py-2.5 bg-white/5 text-slate-500 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-[0.3em] italic group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all">
+          {org.type || 'Enterprise'}
         </div>
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 relative z-10">
         <Link href={`/pages/organization/${org.id}`}>
-          <h3 className="text-3xl font-black text-slate-900 mb-4 tracking-tighter hover:text-blue-600 transition-colors cursor-pointer leading-[0.9] text-balance">
+          <h3 className="text-3xl md:text-4xl font-black text-white mb-6 tracking-tighter hover:text-blue-500 transition-colors cursor-pointer leading-[0.85] text-balance italic uppercase line-clamp-2">
             {org.name}
           </h3>
         </Link>
-        <div className="flex items-center gap-2 text-slate-400 text-[11px] font-black mb-6 uppercase tracking-widest">
-          <MapPin size={14} className="text-blue-600" strokeWidth={3} />
-          {org.location || 'Distributed'}
+        <div className="flex items-center gap-3 text-slate-500 text-[11px] font-black mb-10 uppercase tracking-[0.2em] italic">
+          <MapPin size={16} className="text-blue-500" strokeWidth={3} />
+          {org.location || 'Distributed Node'}
         </div>
-        <p className="text-slate-500 font-medium leading-[1.6] mb-10 line-clamp-3 text-lg italic opacity-80 group-hover:opacity-100 transition-opacity">
-          “{org.description || 'Shaping the landscape of tomorrow through architectural excellence and human-centric design philosophies.'}”
-        </p>
+        <div className="relative">
+          <p className="text-slate-400 font-bold leading-[1.6] mb-12 line-clamp-3 text-lg italic opacity-80 group-hover:opacity-100 transition-opacity">
+            “{org.description || 'Architecting the networked landscape of tomorrow through cognitive excellence and high-performance design.'}”
+          </p>
+          <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-blue-500/50 to-transparent rounded-full opacity-50"></div>
+        </div>
       </div>
 
-      <div className="flex items-center justify-between pt-10 border-t border-slate-50 mt-auto">
-        <div className="flex items-center gap-3">
-          <div className="flex -space-x-3">
+      <div className="flex items-center justify-between pt-10 border-t border-white/5 mt-auto relative z-10">
+        <div className="flex items-center gap-4">
+          <div className="flex -space-x-4">
             {[1, 2, 3].map(i => (
-              <div key={i} className="w-10 h-10 rounded-2xl border-2 border-white bg-slate-100 flex items-center justify-center overflow-hidden">
-                <div className="w-full h-full bg-slate-200"></div>
+              <div key={i} className="w-11 h-11 rounded-[1.2rem] border-2 border-slate-900 bg-slate-800 flex items-center justify-center overflow-hidden shadow-2xl">
+                <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-900"></div>
               </div>
             ))}
           </div>
-          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Trusted Entity</span>
+          <span className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] italic">Verified Registry</span>
         </div>
         <Link
           href={`/pages/organization/${org.id}`}
-          className="w-14 h-14 bg-slate-50 text-slate-300 rounded-2xl flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all transform group-hover:scale-110 active:scale-95 border border-slate-100 hover:border-blue-600"
+          className="w-16 h-16 bg-white/5 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all transform group-hover:scale-110 active:scale-95 border border-white/5 hover:border-blue-600 shadow-2xl shadow-black/40"
         >
-          <ArrowRight size={24} />
+          <ArrowRight size={28} />
         </Link>
       </div>
     </div>

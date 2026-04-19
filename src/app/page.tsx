@@ -84,11 +84,11 @@ function LandingView() {
 
             {/* Left Content */}
             <div className="flex-1 max-w-3xl">
-              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.4em] mb-12 shadow-2xl shadow-slate-900/20">
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-slate-900 text-white text-[10px] font-extrabold uppercase tracking-[0.4em] mb-12 shadow-2xl shadow-slate-900/20">
                 <Sparkles size={14} className="text-blue-400" /> AI OPERATING SYSTEM 2.0
               </div>
 
-              <h1 className="text-7xl md:text-[8rem] font-black tracking-tighter leading-[0.8] mb-10 italic uppercase text-slate-900 drop-shadow-sm">
+              <h1 className="text-7xl md:text-[8rem] font-extrabold tracking-tighter leading-[0.8] mb-10 italic uppercase text-slate-900 drop-shadow-sm">
                 Jobs that <br /> <span className="text-blue-600 tracking-normal drop-shadow-[0_20px_30px_rgba(37,99,235,0.15)]">Sense you.</span>
               </h1>
 
@@ -97,10 +97,10 @@ function LandingView() {
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-8">
-                <Link href="/pages/register" className="w-full sm:w-auto px-16 py-8 bg-slate-900 text-white rounded-[2.5rem] font-black text-2xl hover:bg-blue-600 transition-all active:scale-95 shadow-[0_30px_60px_-15px_rgba(15,23,42,0.3)] flex items-center justify-center gap-4 group">
+                <Link href="/pages/register" className="w-full sm:w-auto px-16 py-8 bg-slate-900 text-white rounded-[2.5rem] font-extrabold text-2xl hover:bg-blue-600 transition-all active:scale-95 shadow-[0_30px_60px_-15px_rgba(15,23,42,0.3)] flex items-center justify-center gap-4 group">
                   EXPLORE <ArrowRight size={28} className="group-hover:translate-x-2 transition-transform" />
                 </Link>
-                <Link href="/pages/organization" className="w-full sm:w-auto text-xl font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors border-b-4 border-transparent hover:border-blue-600 pb-2">
+                <Link href="/pages/organization" className="w-full sm:w-auto text-xl font-extrabold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors border-b-4 border-transparent hover:border-blue-600 pb-2">
                   FOR STUDIOS
                 </Link>
               </div>
@@ -131,8 +131,8 @@ function LandingView() {
                         <ShieldCheck size={24} />
                       </div>
                       <div>
-                        <p className="text-xs font-black text-slate-900 uppercase tracking-tighter">Perfect Match ID</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Google • Lead Architect</p>
+                        <p className="text-xs font-extrabold text-slate-900 uppercase tracking-tighter">Perfect Match ID</p>
+                        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Google • Lead Architect</p>
                       </div>
                     </div>
 
@@ -141,8 +141,8 @@ function LandingView() {
                         <Zap size={24} fill="currentColor" />
                       </div>
                       <div>
-                        <p className="text-xs font-black uppercase tracking-tighter">New Cycle Active</p>
-                        <p className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Verified Signal</p>
+                        <p className="text-xs font-extrabold uppercase tracking-tighter">New Cycle Active</p>
+                        <p className="text-[10px] font-semibold text-blue-400 uppercase tracking-widest">Verified Signal</p>
                       </div>
                     </div>
                   </div>
@@ -158,7 +158,7 @@ function LandingView() {
 
         {/* LOGO WALL */}
         <div className="container mx-auto px-6 mt-48 py-20 border-y border-slate-100">
-          <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-[1em] mb-16">INTEGRATED WITH GLOBAL ARCHITECTS</p>
+          <p className="text-[10px] font-extrabold text-slate-400 text-center uppercase tracking-[1em] mb-16">INTEGRATED WITH GLOBAL ARCHITECTS</p>
           <div className="flex flex-wrap justify-center gap-16 md:gap-32 opacity-20 filter grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-700 cursor-default">
             <CompanyLogo name="MICROSOFT" />
             <CompanyLogo name="OPENAI" />
@@ -175,14 +175,14 @@ function LandingView() {
 function LandingMetric({ label, value }: { label: string, value: string }) {
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-5xl font-black italic text-slate-900 tracking-tighter drop-shadow-sm">{value}</span>
-      <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em]">{label}</span>
+      <span className="text-5xl font-extrabold italic text-slate-900 tracking-tighter drop-shadow-sm">{value}</span>
+      <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.4em]">{label}</span>
     </div>
   );
 }
 
 function CompanyLogo({ name }: { name: string }) {
-  return <span className="text-3xl font-black italic tracking-tighter text-slate-900">{name}</span>;
+  return <span className="text-3xl font-extrabold italic tracking-tighter text-slate-900">{name}</span>;
 }
 
 // ─── FEED VIEW (SOPHISTICATED SOCIAL HUB) ────────────────────────────
@@ -195,6 +195,12 @@ function FeedView() {
   const { showCreateModal, openCreateModal, closeCreateModal } = usePostStore();
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostImage, setNewPostImage] = useState('');
+
+  // ── PAGINATION LOGIC ──
+  const [currentPage, setCurrentPage] = useState(1);
+  const POSTS_PER_PAGE = 11;
+  const totalPages = posts ? Math.ceil(posts.length / POSTS_PER_PAGE) : 0;
+  const paginatedPosts = posts ? posts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE) : [];
 
   const currentUserId = (() => {
     const token = getToken();
@@ -235,7 +241,7 @@ function FeedView() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-24">
+    <div className="min-h-screen bg-gray-900 pb-24">
       {/* ── BACKGROUND AMBIENCE ── */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-blue-500/5 blur-[120px] rounded-full"></div>
@@ -246,83 +252,128 @@ function FeedView() {
 
         {/* ── LEFT SIDEBAR (Studio ID) ── */}
         <aside className="hidden lg:block sticky top-32 space-y-6">
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden group">
-            <div className="h-28 relative">
+          <div className="bg-slate-900/40 backdrop-blur-3xl rounded-[3rem] border border-white/5 shadow-2xl overflow-hidden group transition-all duration-500 hover:border-blue-500/30">
+            <div className="h-32 relative">
               {myProfile?.backgroundPhotoUrl ? (
-                <img src={myProfile.backgroundPhotoUrl} alt="" className="w-full h-full object-cover" />
+                <img src={myProfile.backgroundPhotoUrl} alt="" className="w-full h-full object-cover opacity-60" />
               ) : (
-                <div className="absolute inset-0 bg-slate-900">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-indigo-900/40">
                   <div className="absolute inset-0 bg-grid-white/5"></div>
                 </div>
               )}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
             </div>
 
-            <div className="px-6 pb-8 text-center relative mt-[-3.5rem]">
+            <div className="px-6 pb-8 text-center relative mt-[-4rem]">
               <Link href="/pages/profile" className="inline-block relative">
-                <div className="w-28 h-28 rounded-[2.4rem] bg-white p-1 shadow-2xl overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                <div className="w-32 h-32 rounded-[2.8rem] bg-slate-900 p-1.5 shadow-2xl overflow-hidden group-hover:scale-105 transition-transform duration-500 border border-white/10">
                   {myProfile?.photoUrl ? (
-                    <img src={myProfile.photoUrl} alt={myName} className="w-full h-full object-cover rounded-[1.8rem]" />
+                    <img src={myProfile.photoUrl} alt={myName} className="w-full h-full object-cover rounded-[2.2rem]" />
                   ) : (
-                    <div className="w-full h-full bg-slate-900 flex items-center justify-center rounded-[1.8rem]">
-                      <span className="text-2xl font-black text-white italic">{myInitials}</span>
+                    <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center rounded-[2.2rem]">
+                      <span className="text-3xl font-extrabold text-white italic tracking-tighter">{myInitials}</span>
                     </div>
                   )}
                 </div>
-                <div className="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 border-4 border-white rounded-full animate-pulse"></div>
+                <div className="absolute bottom-2 right-2 w-7 h-7 bg-emerald-500 border-4 border-slate-900 rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.5)]"></div>
               </Link>
 
               <div className="mt-6">
-                <Link href="/pages/profile" className="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors italic uppercase tracking-tighter leading-none">{myName}</Link>
-                <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest mt-3 leading-snug line-clamp-2 px-2">{myProfile?.headline || 'Studio Member'}</p>
+                <Link href="/pages/profile" className="text-2xl font-extrabold text-white group-hover:text-blue-400 transition-colors italic uppercase tracking-tighter leading-none block">{myName}</Link>
+                <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em] mt-3 leading-snug line-clamp-2 px-4 opacity-80">{myProfile?.headline || 'Neural Architect'}</p>
               </div>
             </div>
 
-            <div className="pt-6 border-t border-slate-50 flex flex-col divide-y divide-slate-50">
-              <SidebarLink icon={<Users size={16} />} label="Neural Network" count="0" />
-              <SidebarLink icon={<Briefcase size={16} />} label="Active Cycles" count="0" />
-              <SidebarLink icon={<LayoutGrid size={16} />} label="Manifestos" count="0" />
+            <div className="pt-6 border-t border-white/5 flex flex-col divide-y divide-white/5">
+              <SidebarLink icon={<Users size={16} />} label="Neural Network" count="428" />
+              <SidebarLink icon={<Briefcase size={16} />} label="Active Cycles" count="12" />
+              <SidebarLink icon={<LayoutGrid size={16} />} label="Manifestos" count="5" />
             </div>
 
-            <div className="p-6 bg-slate-900 text-white">
-              <Link href="/pages/profile" className="flex items-center justify-between group/btn">
-                <span className="text-[10px] font-black uppercase tracking-[0.3em]">Access Analytics</span>
-                <ArrowUpRight size={14} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+            <div className="p-2">
+              <Link href="/pages/profile" className="flex items-center justify-between px-6 py-4 bg-white/5 hover:bg-white/10 rounded-[2rem] transition-all group/btn">
+                <span className="text-[9px] font-black text-blue-400 uppercase tracking-[0.3em]">Access Analytics</span>
+                <ArrowUpRight size={14} className="text-blue-400 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
               </Link>
             </div>
           </div>
 
-          <p className="text-center text-[9px] font-black text-slate-300 uppercase tracking-[0.5em]">AiJob Hub Protocols v2.0</p>
+          <p className="text-center text-[9px] font-black text-slate-500 uppercase tracking-[0.6em] opacity-40">AiJob Hub v2.0 // Core</p>
         </aside>
 
         {/* ── MAIN FEED ── */}
         <main className="space-y-10">
           {/* Create Post Box - ElegantHUD */}
-          <div className="bg-white rounded-[3rem] border border-slate-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] p-10 group overflow-hidden relative">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-[50px] rounded-full translate-x-12 -translate-y-12"></div>
+          <div className="bg-slate-900/40 backdrop-blur-3xl rounded-[3.5rem] border border-white/5 shadow-2xl p-10 group overflow-hidden relative transition-all duration-500 hover:border-blue-500/20">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-blue-600/10 blur-[80px] rounded-full translate-x-12 -translate-y-12 animate-pulse"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-600/10 blur-[60px] rounded-full -translate-x-12 translate-y-12"></div>
 
-            <div className="flex gap-6 items-center mb-8 relative z-10">
-              <Link href="/pages/profile" className="w-16 h-16 rounded-[1.6rem] border border-slate-100 flex items-center justify-center overflow-hidden bg-slate-50 shadow-sm transition-transform hover:scale-110">
+            <div className="flex gap-8 items-center mb-10 relative z-10">
+              <Link href="/pages/profile" className="w-20 h-20 rounded-[2rem] border border-white/10 flex items-center justify-center overflow-hidden bg-slate-900 shadow-2xl transition-all hover:scale-110 hover:border-blue-500/50">
                 {myProfile?.photoUrl ? (
                   <img src={myProfile.photoUrl} alt={myName} className="w-full h-full object-cover" />
                 ) : (
-                  <span className="text-lg font-black text-blue-600 italic">M</span>
+                  <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center">
+                    <span className="text-xl font-black text-white italic">M</span>
+                  </div>
                 )}
               </Link>
               <button
                 onClick={openCreateModal}
-                className="flex-1 h-16 bg-slate-50 border border-slate-100 rounded-[1.6rem] text-left px-8 text-sm text-slate-400 font-black uppercase tracking-widest hover:bg-white hover:border-blue-600/30 transition-all active:scale-95 shadow-inner"
+                className="flex-1 h-20 bg-white/5 border border-white/5 rounded-[2.2rem] text-left px-10 text-sm text-slate-400 font-extrabold uppercase tracking-[0.2em] hover:bg-white/10 hover:border-blue-500/30 transition-all active:scale-[0.98] shadow-inner backdrop-blur-sm"
               >
                 Broadcast a thought...
               </button>
             </div>
 
-            <div className="flex items-center gap-4 relative z-10">
-              <PostTypeBtn onClick={openCreateModal} icon={<ImageIcon size={18} className="text-blue-600" />} label="Visuals" />
-              <PostTypeBtn onClick={openCreateModal} icon={<VideoIcon size={18} className="text-emerald-600" />} label="Continuity" />
-              <PostTypeBtn onClick={openCreateModal} icon={<Newspaper size={18} className="text-amber-500" />} label="Directive" />
+            <div className="flex items-center gap-6 relative z-10">
+              <PostTypeBtn onClick={openCreateModal} icon={<ImageIcon size={20} className="text-blue-400" />} label="Visuals" bg="bg-blue-400/10" />
+              <PostTypeBtn onClick={openCreateModal} icon={<VideoIcon size={20} className="text-emerald-400" />} label="Continuity" bg="bg-emerald-400/10" />
+              <PostTypeBtn onClick={openCreateModal} icon={<Newspaper size={20} className="text-amber-400" />} label="Directive" bg="bg-amber-400/10" />
             </div>
           </div>
 
+          {/* Advanced Pagination UI */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-4 mt-10">
+              {/* <button
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="w-14 h-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition-all disabled:opacity-10 active:scale-90"
+              >
+                <MoveRight size={20} className="rotate-180" />
+              </button> */}
+
+              <div className="flex items-center gap-2 bg-slate-900/40 backdrop-blur-xl border border-white/5 p-2 rounded-3xl">
+                {[...Array(totalPages)].map((_, i) => {
+                  const pageNum = i + 1;
+                  const isActive = currentPage === pageNum;
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={clsx(
+                        "w-12 h-12 rounded-2xl font-black text-xs transition-all duration-300",
+                        isActive
+                          ? "bg-blue-600 text-white shadow-[0_10px_30px_rgba(37,99,235,0.4)] scale-110"
+                          : "text-slate-500 hover:bg-white/10 hover:text-white"
+                      )}
+                    >
+                      {pageNum < 10 ? `0${pageNum}` : pageNum}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* <button
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="w-14 h-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-slate-400 hover:bg-blue-600 hover:text-white transition-all disabled:opacity-10 active:scale-90"
+              >
+                <MoveRight size={20} />
+              </button> */}
+            </div>
+          )}
           {/* Sort & Status Feed */}
           <div className="flex items-center justify-between px-6">
             <div className="flex items-center gap-3">
@@ -354,121 +405,134 @@ function FeedView() {
               </button>
             </div>
           ) : (
-            <div className="space-y-12">
-              {posts.map((post: Post) => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  timeAgo={timeAgo}
-                  onLike={(id) => likeMutation.mutate(id)}
-                  onRepost={(id) => repostMutation.mutate(id)}
-                />
-              ))}
-            </div>
+            <>
+              <div className="space-y-12">
+                {paginatedPosts.map((post: Post) => (
+                  <PostCard
+                    key={post.id}
+                    post={post}
+                    timeAgo={timeAgo}
+                    onLike={(id) => likeMutation.mutate(id)}
+                    onRepost={(id) => repostMutation.mutate(id)}
+                  />
+                ))}
+              </div>
+
+            </>
           )}
         </main>
 
         {/* ── RIGHT SIDEBAR (Network Pulse) ── */}
         <aside className="hidden lg:flex flex-col gap-10 sticky top-32">
           {/* News Block */}
-          <div className="bg-white rounded-[3rem] border border-slate-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] p-10">
-            <div className="flex items-center justify-between mb-10">
-              <h2 className="text-xl font-black text-slate-900 italic uppercase tracking-tighter">AiPulse.</h2>
-              <div className="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 border border-blue-100">
-                <TrendingUp size={16} />
+          <div className="bg-slate-900/40 backdrop-blur-3xl rounded-[3rem] border border-white/5 shadow-2xl p-10 transition-all duration-500 hover:border-blue-500/20">
+            <div className="flex items-center justify-between mb-12">
+              <h2 className="text-2xl font-black text-white italic uppercase tracking-tighter flex items-center gap-2">
+                AiPulse<span className="text-blue-500">.</span>
+              </h2>
+              <div className="w-10 h-10 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 border border-blue-500/20 shadow-lg shadow-blue-500/10">
+                <TrendingUp size={18} />
               </div>
             </div>
 
             <ul className="space-y-10">
               {[
-                { title: "OpenAI v5.0 Cycle Initialized", readers: "7.6k" },
-                { title: "Nvidia Market Saturation Peak", readers: "7.2k" },
-                { title: "Remote Studio Standards 2026", readers: "5.4k" },
-                { title: "Meta VR Workspace Deployment", readers: "4.7k" },
+                { title: "OpenAI v5.0 Cycle Initialized", readers: "7.6k", tag: "SYSTEM" },
+                { title: "Nvidia Market Saturation Peak", readers: "7.2k", tag: "MARKET" },
+                { title: "Remote Studio Standards 2026", readers: "5.4k", tag: "POLICY" },
+                { title: "Meta VR Workspace Deployment", readers: "4.7k", tag: "TECH" },
               ].map((news, i) => (
                 <li key={i} className="group cursor-pointer">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest leading-none">News Protocol</span>
-                    <span className="text-[8px] font-black text-slate-300 uppercase leading-none">{news.readers} READS</span>
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-[8px] font-black text-blue-500 border border-blue-500/20 px-2 py-0.5 rounded-md uppercase tracking-[0.2em] leading-none">{news.tag}</span>
+                    <span className="text-[8px] font-black text-slate-500 uppercase leading-none">{news.readers} READS</span>
                   </div>
-                  <h4 className="text-sm font-black text-slate-900 group-hover:text-blue-600 transition-colors leading-tight italic uppercase">{news.title}</h4>
+                  <h4 className="text-[13px] font-extrabold text-slate-200 group-hover:text-blue-400 transition-colors leading-tight italic uppercase tracking-tight">{news.title}</h4>
                 </li>
               ))}
             </ul>
 
-            <button className="w-full mt-12 py-4 border border-slate-100 rounded-2xl text-[9px] font-black text-slate-400 uppercase tracking-[0.3em] hover:bg-slate-50 transition-colors">
-              Full Archives <MoveRight size={12} className="inline ml-2" />
+            <button className="w-full mt-12 py-5 bg-white/5 border border-white/5 rounded-2xl text-[9px] font-black text-slate-400 uppercase tracking-[0.3em] hover:bg-white/10 hover:text-white transition-all">
+              Full Archives <MoveRight size={12} className="inline ml-2 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 
-          {/* Puzzle/Ad Block */}
-          <div className="bg-slate-900 rounded-[3rem] p-10 text-white shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/20 blur-[60px] rounded-full translate-x-12 -translate-y-12"></div>
-            <h3 className="text-xl font-black italic uppercase tracking-tighter mb-8 flex items-center gap-3">
-              <Target size={20} className="text-blue-500" /> Objective.
+          {/* Objective Block */}
+          <div className="bg-slate-900/60 backdrop-blur-3xl rounded-[3rem] p-10 text-white shadow-2xl relative overflow-hidden border border-white/5 transition-all duration-500 hover:border-blue-500/30">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-blue-600/10 blur-[80px] rounded-full translate-x-12 -translate-y-12 animate-pulse"></div>
+            <h3 className="text-2xl font-black italic uppercase tracking-tighter mb-8 flex items-center gap-4">
+              <Target size={24} className="text-blue-500" /> Objective<span className="text-blue-500">.</span>
             </h3>
-            <p className="text-slate-400 text-sm font-medium italic mb-8">Refine your cognitive score with daily neural challenges.</p>
-            <button className="w-full py-4 bg-white text-slate-900 rounded-[1.5rem] font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all shadow-xl">
+            <p className="text-slate-400 text-[13px] font-bold italic mb-10 leading-relaxed opacity-80">Refine your cognitive score with daily neural challenges and synchronized simulations.</p>
+            <button className="w-full py-5 bg-white text-slate-900 rounded-[1.8rem] font-black text-[10px] uppercase tracking-[0.4em] hover:bg-blue-600 hover:text-white transition-all shadow-2xl active:scale-95">
               ENTER SIMULATION
             </button>
           </div>
         </aside>
       </div>
 
-      {/* ── CREATE POST MODAL (Studio Grid Style) ── */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/60 backdrop-blur-xl animate-in fade-in duration-300" onClick={closeCreateModal}>
-          <div className="bg-white rounded-[4rem] shadow-[0_40px_120px_-20px_rgba(0,0,0,0.5)] w-full max-w-[640px] mx-4 relative overflow-hidden border border-white/20 animate-in zoom-in-95 duration-300" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/80 backdrop-blur-2xl animate-in fade-in duration-500" onClick={closeCreateModal}>
+          <div className="bg-slate-900 border border-white/10 rounded-[4rem] shadow-[0_60px_150px_-20px_rgba(0,0,0,0.8)] w-full max-w-[700px] mx-4 relative overflow-hidden animate-in zoom-in-95 duration-500" onClick={e => e.stopPropagation()}>
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/20 blur-[100px] rounded-full"></div>
+            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-600/10 blur-[100px] rounded-full"></div>
+
             {/* Header */}
-            <div className="px-12 py-10 flex items-center justify-between border-b border-slate-50 relative z-10">
-              <div className="flex items-center gap-5">
-                <div className="w-16 h-16 rounded-[1.5rem] bg-slate-900 flex items-center justify-center text-white italic font-black shadow-xl">
+            <div className="px-12 py-10 flex items-center justify-between border-b border-white/5 relative z-10 bg-white/5">
+              <div className="flex items-center gap-6">
+                <div className="w-20 h-20 rounded-[2rem] bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white italic font-black shadow-2xl text-2xl tracking-tighter">
                   {myInitials}
                 </div>
                 <div>
-                  <h4 className="text-xl font-black text-slate-900 italic uppercase">Broadcast.</h4>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Signal targeting Everyone</p>
+                  <h4 className="text-2xl font-black text-white italic uppercase tracking-tighter">Broadcast Signal<span className="text-blue-500">.</span></h4>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Transmission targeting Unified Network</p>
                 </div>
               </div>
-              <button onClick={closeCreateModal} className="w-14 h-14 rounded-2xl hover:bg-slate-50 flex items-center justify-center transition-all bg-white border border-slate-100 shadow-sm active:scale-90">
-                <X size={24} className="text-slate-400" />
+              <button
+                onClick={closeCreateModal}
+                className="w-16 h-16 rounded-[1.8rem] hover:bg-white/10 flex items-center justify-center transition-all bg-white/5 border border-white/10 shadow-2xl active:scale-90 group"
+              >
+                <X size={28} className="text-slate-400 group-hover:text-white transition-colors" />
               </button>
             </div>
 
-            <div className="p-12">
+            <div className="p-12 relative z-10">
               <textarea
                 value={newPostContent}
                 onChange={e => setNewPostContent(e.target.value)}
                 placeholder="Synchronize your signal with the network..."
-                className="w-full h-48 resize-none outline-none text-2xl font-bold text-slate-900 placeholder:text-slate-200 italic leading-snug"
+                className="w-full h-56 resize-none outline-none bg-transparent text-3xl font-extrabold text-white placeholder:text-slate-700 italic leading-snug tracking-tight"
                 autoFocus
               />
-              <div className="mt-8 relative group">
+              <div className="mt-10 relative group">
+                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-blue-500/50">
+                  <ImageIcon size={20} />
+                </div>
                 <input
                   type="text"
                   value={newPostImage}
                   onChange={e => setNewPostImage(e.target.value)}
                   placeholder="Insert asset URL (Visual/Continuity)"
-                  className="w-full px-8 py-5 bg-slate-50 border border-slate-100 rounded-[1.5rem] outline-none text-sm font-black text-slate-900 placeholder:text-slate-300 focus:border-blue-600 transition-all font-sans"
+                  className="w-full pl-16 pr-8 py-6 bg-white/5 border border-white/5 rounded-[2rem] outline-none text-sm font-black text-white placeholder:text-slate-600 focus:border-blue-500/50 transition-all font-sans"
                 />
               </div>
             </div>
 
-            <div className="px-12 py-10 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-8">
-              <div className="flex items-center gap-4">
-                <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-blue-600 transition-colors">
-                  <ImageIcon size={18} /> ASSET
+            <div className="px-12 py-12 border-t border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-10 relative z-10 bg-white/5">
+              <div className="flex items-center gap-6">
+                <button className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-blue-400 transition-all">
+                  <ImageIcon size={20} /> ASSET
                 </button>
-                <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-emerald-600 transition-colors">
-                  <VideoIcon size={18} /> CONTINUITY
+                <button className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-emerald-400 transition-all">
+                  <VideoIcon size={20} /> CONTINUITY
                 </button>
               </div>
               <button
                 onClick={handleCreatePost}
                 disabled={createPostMutation.isPending || !newPostContent.trim()}
-                className="px-12 py-5 bg-slate-900 text-white rounded-[2rem] font-black text-lg hover:bg-blue-600 transition-all disabled:opacity-20 active:scale-95 shadow-2xl flex items-center gap-3"
+                className="px-16 py-6 bg-blue-600 text-white rounded-[2rem] font-black text-xl hover:bg-white hover:text-slate-900 transition-all disabled:opacity-20 active:scale-95 shadow-[0_20px_50px_rgba(37,99,235,0.3)] flex items-center gap-4 italic uppercase tracking-tighter"
               >
-                {createPostMutation.isPending ? 'SYNCING...' : 'INITIATE SYNC'} <SendHorizontal size={20} />
+                {createPostMutation.isPending ? 'SYNCING...' : 'INITIATE SYNC'} <SendHorizontal size={24} />
               </button>
             </div>
           </div>
@@ -480,21 +544,21 @@ function FeedView() {
 
 function SidebarLink({ icon, label, count }: { icon: React.ReactNode, label: string, count: string }) {
   return (
-    <div className="flex items-center justify-between px-6 py-4 hover:bg-slate-50 cursor-pointer transition-colors group">
-      <div className="flex items-center gap-4">
-        <span className="text-slate-300 group-hover:text-blue-600 transition-colors">{icon}</span>
-        <span className="text-[11px] font-black text-slate-600 uppercase tracking-widest">{label}</span>
+    <div className="flex items-center justify-between px-8 py-5 hover:bg-white/5 cursor-pointer transition-all group">
+      <div className="flex items-center gap-5">
+        <span className="text-slate-500 group-hover:text-blue-400 transition-colors group-hover:scale-110 duration-300">{icon}</span>
+        <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.15em] group-hover:text-white transition-colors">{label}</span>
       </div>
-      <span className="text-[10px] font-black text-slate-300">{count}</span>
+      <span className="text-[10px] font-black text-slate-500 group-hover:text-blue-400 transition-colors bg-white/5 px-2 py-1 rounded-md">{count}</span>
     </div>
   );
 }
 
-function PostTypeBtn({ onClick, icon, label }: any) {
+function PostTypeBtn({ onClick, icon, label, bg }: any) {
   return (
-    <button onClick={onClick} className="flex-1 flex items-center justify-center gap-3 py-4 rounded-2xl hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all">
-      {icon}
-      <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{label}</span>
+    <button onClick={onClick} className={clsx("flex-1 flex items-center justify-center gap-4 py-5 rounded-[1.8rem] hover:bg-white/10 border border-white/5 transition-all group", bg)}>
+      <span className="group-hover:scale-125 transition-transform duration-500">{icon}</span>
+      <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] group-hover:text-white transition-colors">{label}</span>
     </button>
   );
 }
@@ -514,92 +578,109 @@ function PostCard({ post, timeAgo, onLike, onRepost }: {
   const displayName = userProfile?.firstName && userProfile?.lastName
     ? `${userProfile.firstName} ${userProfile.lastName}`
     : `User #${post.userId}`;
-  const displayHeadline = userProfile?.headline || 'Studio Member';
+  const displayHeadline = userProfile?.headline || 'Neural Architect';
   const displayInitial = userProfile?.firstName?.[0]?.toUpperCase() || 'U';
 
   return (
-    <div className="bg-white rounded-[4rem] border border-slate-100 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.05)] overflow-hidden group/card hover:border-blue-500/20 transition-all duration-700">
+    <div className="bg-slate-900/40 backdrop-blur-3xl rounded-[4rem] border border-white/5 shadow-2xl overflow-hidden group/card hover:border-blue-500/30 transition-all duration-700 relative">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 blur-[100px] rounded-full -z-10 group-hover/card:bg-blue-600/10 transition-colors"></div>
+
       {/* Header */}
-      <div className="flex items-start gap-5 p-10 pb-0 relative">
-        <Link href={`/pages/profile/${post.userId}`} className="w-16 h-16 rounded-[1.6rem] bg-slate-50 border border-slate-100 flex items-center justify-center flex-shrink-0 cursor-pointer hover:scale-110 transition-transform overflow-hidden shadow-sm">
+      <div className="flex items-start gap-6 p-10 pb-0 relative">
+        <Link href={`/pages/profile/${post.userId}`} className="w-20 h-20 rounded-[2.2rem] bg-slate-800 border border-white/10 flex items-center justify-center flex-shrink-0 cursor-pointer hover:scale-110 transition-all duration-500 overflow-hidden shadow-2xl hover:border-blue-500/50">
           {userProfile?.photoUrl ? (
             <img src={userProfile.photoUrl} alt={displayName} className="w-full h-full object-cover" />
           ) : (
-            <span className="font-black text-blue-600 text-lg italic">{displayInitial}</span>
+            <div className="w-full h-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
+              <span className="font-black text-blue-400 text-2xl italic tracking-tighter">{displayInitial}</span>
+            </div>
           )}
         </Link>
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 pt-2">
           <div className="flex items-center justify-between">
-            <Link href={`/pages/profile/${post.userId}`} className="font-black text-xl text-slate-900 hover:text-blue-600 transition-colors cursor-pointer italic uppercase tracking-tighter">
+            <Link href={`/pages/profile/${post.userId}`} className="font-black text-2xl text-white hover:text-blue-400 transition-all cursor-pointer italic uppercase tracking-tighter group/name">
               {displayName}
+              <div className="h-0.5 w-0 group-hover/name:w-full bg-blue-500 transition-all duration-500 mt-0.5"></div>
             </Link>
-            <button className="px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[9px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all">
+            <button className="px-6 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-blue-500 hover:text-white transition-all shadow-lg active:scale-95">
               FOLLOW
             </button>
           </div>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1 opacity-80">{displayHeadline}</p>
-          <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-2 mt-2">
-            {timeAgo(post.createdAt)} • Verified Stream
+          <p className="text-[11px] font-black text-slate-500 uppercase tracking-widest mt-3 opacity-80 flex items-center gap-2">
+            <BrainCircuit size={12} className="text-blue-500/50" /> {displayHeadline}
           </p>
+          <div className="flex items-center gap-3 mt-4">
+            <span className="text-[9px] font-black text-slate-600 uppercase tracking-[0.3em] bg-white/5 px-3 py-1 rounded-full border border-white/5">
+              {timeAgo(post.createdAt)}
+            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+            <span className="text-[9px] font-black text-slate-600 uppercase tracking-[0.3em]">Verified Stream</span>
+          </div>
         </div>
-        <button className="text-slate-300 hover:text-slate-900 transition-colors pt-2">
+        <button className="text-slate-600 hover:text-white transition-colors pt-2 h-10 w-10 flex items-center justify-center rounded-xl hover:bg-white/5">
           <MoreHorizontal size={20} />
         </button>
       </div>
 
       {/* Content */}
-      <div className="px-10 pt-8 pb-10">
-        <p className="text-xl text-slate-700 font-bold leading-[1.4] whitespace-pre-wrap italic opacity-90">“{post.content}”</p>
+      <div className="px-12 pt-10 pb-10">
+        <p className="text-2xl text-slate-200 font-extrabold leading-[1.4] whitespace-pre-wrap italic opacity-90 tracking-tight">
+          “{post.content}”
+        </p>
       </div>
 
       {/* Image Asset */}
       {post.imageUrl && (
-        <div className="mx-10 rounded-[3rem] overflow-hidden border border-slate-50 shadow-2xl group/img relative">
-          <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover/img:opacity-100 transition-opacity pointer-events-none"></div>
-          <img src={post.imageUrl} alt="Post media" className="w-full max-h-[600px] object-cover transition-transform duration-1000 group-hover/card:scale-105" />
+        <div className="mx-10 rounded-[3.5rem] overflow-hidden border border-white/10 shadow-3xl group/img relative">
+          <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover/img:opacity-100 transition-opacity pointer-events-none duration-700 z-10"></div>
+          <img src={post.imageUrl} alt="Post media" className="w-full max-h-[700px] object-cover transition-transform duration-[1.5s] ease-out group-hover/card:scale-105" />
+          <div className="absolute bottom-6 right-6 px-4 py-2 bg-black/60 backdrop-blur-md rounded-2xl border border-white/10 flex items-center gap-2 z-20">
+            <ImageIcon size={14} className="text-blue-400" />
+            <span className="text-[9px] font-black text-white uppercase tracking-widest">Neural Asset V1</span>
+          </div>
         </div>
       )}
 
       {/* Repost Context */}
       {post.repostOfPostId && (
-        <div className="mx-10 my-6 px-6 py-4 bg-slate-50 rounded-3xl border border-slate-100 flex items-center gap-3">
-          <Repeat size={14} className="text-blue-600" />
-          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Bridged from Sync Protocol #{post.repostOfPostId}</span>
+        <div className="mx-10 my-8 px-8 py-5 bg-white/5 rounded-[2rem] border border-white/5 flex items-center gap-4 group/bridge cursor-pointer hover:bg-white/10 transition-colors">
+          <Repeat size={16} className="text-blue-400" />
+          <span className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] group-hover/bridge:text-white transition-colors">Bridged from Sync Protocol <span className="text-blue-500">#{post.repostOfPostId}</span></span>
         </div>
       )}
 
       {/* Social Interactions */}
-      <div className="px-10 py-8 mt-10 border-t border-slate-50">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-full text-blue-600 text-[10px] font-black">
-              <Heart size={14} fill={post.likedByMe ? 'currentColor' : 'none'} className={clsx(post.likedByMe && "animate-pulse")} />
+      <div className="px-10 py-10 mt-6 border-t border-white/5">
+        <div className="flex items-center justify-between mb-10">
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3 px-5 py-2.5 bg-blue-500/10 border border-blue-500/20 rounded-2xl text-blue-400 text-[11px] font-black shadow-lg shadow-blue-500/5">
+              <Heart size={16} fill={post.likedByMe ? 'currentColor' : 'none'} className={clsx(post.likedByMe && "animate-pulse")} />
               {post.likeCount ?? 0}
             </div>
             <button
               onClick={() => toggleComments(post.id)}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-100 rounded-full text-slate-500 text-[10px] font-black hover:bg-white hover:border-blue-600/30 transition-all"
+              className="flex items-center gap-3 px-5 py-2.5 bg-white/5 border border-white/5 rounded-2xl text-slate-400 text-[11px] font-black hover:bg-white/10 hover:border-blue-500/30 transition-all"
             >
-              <MessageSquare size={14} />
+              <MessageSquare size={16} />
               {post.commentCount ?? 0}
             </button>
-            <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-100 rounded-full text-slate-500 text-[10px] font-black">
-              <Repeat size={14} />
+            <div className="flex items-center gap-3 px-5 py-2.5 bg-white/5 border border-white/5 rounded-2xl text-slate-400 text-[11px] font-black">
+              <Repeat size={16} />
               {post.repostCount ?? 0}
             </div>
           </div>
 
-          <button className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-300 hover:bg-slate-900 hover:text-white transition-all active:scale-90">
-            <Share2 size={18} />
+          <button className="w-14 h-14 rounded-[1.5rem] bg-white/5 border border-white/5 flex items-center justify-center text-slate-500 hover:bg-blue-600 hover:text-white transition-all active:scale-90 shadow-2xl">
+            <Share2 size={20} />
           </button>
         </div>
 
         {/* HUD Action Grid */}
-        <div className="grid grid-cols-4 gap-4">
-          <PostActionBtn onClick={() => onLike(post.id)} active={post.likedByMe} icon={<Heart size={20} />} label="SIGNAL" />
-          <PostActionBtn onClick={() => toggleComments(post.id)} icon={<MessageSquare size={20} />} label="ECHO" />
-          <PostActionBtn onClick={() => onRepost(post.id)} icon={<Repeat size={20} />} label="BRIDGE" />
-          <PostActionBtn icon={<SendHorizontal size={20} />} label="SEND" />
+        <div className="grid grid-cols-4 gap-5">
+          <PostActionBtn onClick={() => onLike(post.id)} active={post.likedByMe} icon={<Heart size={22} />} label="SIGNAL" />
+          <PostActionBtn onClick={() => toggleComments(post.id)} icon={<MessageSquare size={22} />} label="ECHO" />
+          <PostActionBtn onClick={() => onRepost(post.id)} icon={<Repeat size={22} />} label="BRIDGE" />
+          <PostActionBtn icon={<SendHorizontal size={22} />} label="SEND" />
         </div>
       </div>
 
@@ -614,14 +695,18 @@ function PostActionBtn({ onClick, active, icon, label }: any) {
     <button
       onClick={onClick}
       className={clsx(
-        "flex flex-col items-center gap-3 py-6 rounded-[2rem] transition-all relative overflow-hidden group/btn",
+        "flex flex-col items-center gap-3 py-3 px-0 rounded-[2rem] transition-all relative overflow-hidden group/btn",
         active
-          ? "bg-blue-600 text-white shadow-xl shadow-blue-600/20"
-          : "bg-slate-50 text-slate-400 hover:bg-white hover:shadow-2xl hover:text-blue-600 border border-transparent hover:border-blue-500/10"
+          ? "bg-blue-600 text-white shadow-[0_20px_50px_rgba(37,99,235,0.4)]"
+          : "bg-white/5 text-slate-500 hover:bg-white/10 hover:shadow-[0_20px_50px_rgba(37,99,235,0.15)] hover:text-blue-400 border border-white/5 hover:border-blue-500/30"
       )}
     >
-      <span className="scale-100 group-hover/btn:scale-125 transition-transform duration-500">{icon}</span>
-      <span className="text-[9px] font-black uppercase tracking-widest opacity-60 group-hover/btn:opacity-100">{label}</span>
+      <div className="relative">
+        <span className="scale-100 group-hover/btn:scale-125 transition-transform duration-500 block">{icon}</span>
+        {active && <span className="absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full animate-ping"></span>}
+      </div>
+      <span className="text-[10px] font-black uppercase tracking-[0.25em] opacity-60 group-hover/btn:opacity-100 transition-opacity">{label}</span>
+      {active && <div className="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent pointer-events-none"></div>}
     </button>
   );
 }
@@ -649,31 +734,33 @@ function CommentSection({ postId, timeAgo }: { postId: number; timeAgo: (d: stri
   };
 
   return (
-    <div className="border-t border-slate-50 px-10 py-12 bg-slate-50/30">
+    <div className="border-t border-white/5 px-10 py-12 bg-slate-950/40 backdrop-blur-xl">
       {/* HUD Input */}
       <div className="flex gap-6 mb-12">
-        <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
+        <div className="w-16 h-16 rounded-[1.5rem] bg-slate-800 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden shadow-2xl hover:border-blue-500/50 transition-all">
           {myProfile?.photoUrl ? (
             <img src={myProfile.photoUrl} alt="Me" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-sm font-black text-blue-600 italic">M</span>
+            <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center">
+              <span className="text-xl font-black text-white italic">M</span>
+            </div>
           )}
         </div>
-        <div className="flex-1 flex items-center bg-white rounded-[1.5rem] border border-slate-100 shadow-xl overflow-hidden focus-within:border-blue-500/50 transition-all pr-4">
+        <div className="flex-1 flex items-center bg-white/5 rounded-[2rem] border border-white/5 shadow-2xl overflow-hidden focus-within:border-blue-500/50 transition-all pr-4 backdrop-blur-md group/input">
           <input
             type="text"
             value={text}
             onChange={e => setText(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleSubmit()}
             placeholder="Log an echo to this transmission..."
-            className="flex-1 px-8 py-5 text-sm font-bold outline-none bg-transparent placeholder:text-slate-300 font-sans"
+            className="flex-1 px-8 py-6 text-sm font-bold outline-none bg-transparent placeholder:text-slate-600 text-white font-sans italic"
           />
           <button
             onClick={handleSubmit}
             disabled={!text.trim() || addCommentMutation.isPending}
-            className="w-12 h-12 bg-slate-900 text-white rounded-xl flex items-center justify-center hover:bg-blue-600 disabled:opacity-20 transition-all active:scale-90"
+            className="w-14 h-14 bg-white text-slate-900 rounded-[1.2rem] flex items-center justify-center hover:bg-blue-600 hover:text-white disabled:opacity-10 transition-all active:scale-90 shadow-2xl group-hover/input:scale-105"
           >
-            <SendHorizontal size={18} />
+            <SendHorizontal size={22} />
           </button>
         </div>
       </div>
@@ -685,7 +772,15 @@ function CommentSection({ postId, timeAgo }: { postId: number; timeAgo: (d: stri
           <div className="h-16 bg-slate-100 rounded-3xl"></div>
         </div>
       ) : !comments || comments.length === 0 ? (
-        <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.4em] text-center italic">SILENT NODE.</p>
+        <div className="py-10 text-center relative">
+          <div className="absolute inset-0 flex items-center justify-center opacity-10">
+            <div className="w-32 h-32 border-4 border-slate-500 rounded-full animate-ping"></div>
+          </div>
+          <p className="text-[11px] font-black text-slate-500 uppercase tracking-[0.6em] italic relative z-10 animate-pulse">
+            SILENT NODE<span className="text-blue-500">.</span>
+          </p>
+          <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-slate-800 to-transparent mx-auto mt-6"></div>
+        </div>
       ) : (
         <div className="space-y-10">
           {comments.map(comment => (
@@ -704,21 +799,21 @@ function CommentItem({ comment, timeAgo }: { comment: any; timeAgo: (d: string) 
 
   return (
     <div className="flex gap-6 group">
-      <Link href={`/pages/profile/${comment.userId}`} className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shrink-0 overflow-hidden shadow-sm hover:scale-110 transition-transform">
+      <Link href={`/pages/profile/${comment.userId}`} className="w-14 h-14 rounded-[1.2rem] bg-slate-800 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden shadow-2xl hover:scale-110 transition-all hover:border-blue-500/50">
         {profile?.photoUrl ? (
           <img src={profile.photoUrl} alt={name} className="w-full h-full object-cover" />
         ) : (
-          <span className="text-sm font-black text-slate-400 italic">{initial}</span>
+          <span className="text-sm font-black text-slate-500 italic tracking-tighter">{initial}</span>
         )}
       </Link>
-      <div className="bg-white border border-slate-100 shadow-xl rounded-[2rem] rounded-tl-none px-8 py-6 flex-1 relative">
-        <div className="flex justify-between items-start mb-3">
-          <Link href={`/pages/profile/${comment.userId}`} className="text-xs font-black text-slate-900 hover:text-blue-600 uppercase italic tracking-tighter">
+      <div className="bg-white/5 border border-white/5 shadow-2xl rounded-[2.5rem] rounded-tl-none px-10 py-8 flex-1 relative group-hover:border-blue-500/20 transition-all duration-500">
+        <div className="flex justify-between items-start mb-4">
+          <Link href={`/pages/profile/${comment.userId}`} className="text-[11px] font-black text-white hover:text-blue-400 uppercase italic tracking-[0.1em] transition-colors">
             {name}
           </Link>
-          <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">{timeAgo(comment.createdAt)}</span>
+          <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest">{timeAgo(comment.createdAt)}</span>
         </div>
-        <p className="text-sm font-bold text-slate-500 leading-normal italic opacity-90">“{comment.content}”</p>
+        <p className="text-md font-bold text-slate-400 leading-relaxed italic opacity-90">“{comment.content}”</p>
       </div>
     </div>
   );

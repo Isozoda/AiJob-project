@@ -161,9 +161,14 @@ export const useRepost = () => {
   return useMutation({
     mutationFn: (postId: number) => repostPost(postId),
     onSuccess: () => {
+      // Invalidate all related lists
       queryClient.invalidateQueries({ queryKey: postKeys.all });
       queryClient.invalidateQueries({ queryKey: postKeys.feed });
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: postKeys.all });
+      queryClient.invalidateQueries({ queryKey: postKeys.feed });
+    }
   });
 };
 
@@ -173,12 +178,16 @@ export const useAddComment = (postId: number) => {
   return useMutation({
     mutationFn: (payload: CreateCommentPayload) => addPostComment(postId, payload),
     onSuccess: () => {
-      // Invalidate comments for this post
+      // Refresh comments for this post
       queryClient.invalidateQueries({ queryKey: postKeys.comments(postId) });
       
-      // Also invalidate post lists to update comment counts
+      // Update global feeds to refresh comment counts
       queryClient.invalidateQueries({ queryKey: postKeys.all });
       queryClient.invalidateQueries({ queryKey: postKeys.feed });
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: postKeys.all });
+      queryClient.invalidateQueries({ queryKey: postKeys.feed });
+    }
   });
 };

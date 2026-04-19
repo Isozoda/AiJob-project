@@ -49,13 +49,13 @@ export const deletePost = async (id: number): Promise<string> => {
 
 /** POST /api/Post/{postId}/like — Toggle like on a post */
 export const toggleLikePost = async (postId: number): Promise<LikeResponse> => {
-  const res = await axiosRequest.post<ApiResponse<LikeResponse>>(`/Post/${postId}/like`);
+  const res = await axiosRequest.post<ApiResponse<LikeResponse>>(`/Post/${postId}/like`, {});
   return res.data.data;
 };
 
 /** POST /api/Post/{postId}/repost — Repost a post */
 export const repostPost = async (postId: number): Promise<string> => {
-  const res = await axiosRequest.post<ApiResponse<string>>(`/Post/${postId}/repost`);
+  const res = await axiosRequest.post<ApiResponse<string>>(`/Post/${postId}/repost`, {});
   return res.data.data;
 };
 

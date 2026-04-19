@@ -16,7 +16,10 @@ import {
   Zap,
   Target,
   BrainCircuit,
-  Settings
+  Settings,
+  ShieldCheck,
+  ArrowRight,
+  Cpu
 } from 'lucide-react';
 import { getToken } from '@/src/store/authStore';
 import { 
@@ -40,7 +43,7 @@ type AiTool = 'chat' | 'cv-analyzer' | 'cover-letter' | 'message-gen';
 export default function AiAssistantPage() {
   const [activeTool, setActiveTool] = useState<AiTool>('chat');
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'ai', content: 'Hello! I am your AI Career Assistant. How can I help you today?' }
+    { role: 'ai', content: 'Protocol established. I am your neural career strategist. How shall we architect your professional future today?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -80,12 +83,12 @@ export default function AiAssistantPage() {
     } catch (err: any) {
       console.error('AI Error:', err);
       const backendError = err.response?.data?.description?.[0];
-      const errorMsg = backendError || err.message || 'AI is currently unavailable. Please try again later.';
+      const errorMsg = backendError || err.message || 'Neural link unstable. Recalibrating...';
       
       toast.error(errorMsg);
       setMessages(prev => [...prev, { 
         role: 'ai', 
-        content: `❌ Error: ${errorMsg}\n\nThis usually happens when there is a high demand on the AI model. Please try a different prompt or wait a few moments.` 
+        content: `❌ INTERRUPT: ${errorMsg}\n\nThe neural stream is currently saturated. Deploying alternative routing logic. Please re-synchronize or wait for lower bandwidth density.` 
       }]);
     } finally {
       setIsLoading(false);
@@ -104,7 +107,7 @@ export default function AiAssistantPage() {
       });
       setMessages(prev => [...prev, { 
         role: 'ai', 
-        content: `I've analyzed your CV. Here are the key findings:`,
+        content: `Neural CV scan complete. Synchronizing findings to telemetry flow:`,
         type: 'object',
         data: result
       }]);
@@ -128,7 +131,7 @@ export default function AiAssistantPage() {
       });
       setMessages(prev => [...prev, { 
         role: 'ai', 
-        content: `Here is a draft for your cover letter:`,
+        content: `Generated Manifesto for Opportunity Node #${coverLetterContext.jobId}:`,
         type: 'object',
         data: result
       }]);
@@ -154,7 +157,7 @@ export default function AiAssistantPage() {
       });
       setMessages(prev => [...prev, { 
         role: 'ai', 
-        content: `I've drafted a message for ${messageContext.recipient}:`,
+        content: `Encrypted signal drafted for ${messageContext.recipient}:`,
         type: 'object',
         data: result
       }]);
@@ -167,94 +170,107 @@ export default function AiAssistantPage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-80px)] bg-[#f8fafc] text-slate-900 overflow-hidden font-sans">
-      <Toaster position="top-center" />
+    <div className="flex h-[calc(100vh-80px)] bg-slate-900 text-white overflow-hidden font-sans relative">
+      <Toaster position="top-right" />
+      
+      {/* ── BACKGROUND AMBIENCE ── */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-blue-600/10 blur-[150px] rounded-full opacity-40 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-[40%] h-[40%] bg-indigo-600/10 blur-[150px] rounded-full opacity-30"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.02] pointer-events-none"></div>
+      </div>
+
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 5px;
+          width: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: #f1f5f9;
+          background: rgba(255, 255, 255, 0.02);
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #cbd5e1;
+          background: rgba(255, 255, 255, 0.1);
           border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #94a3b8;
+          background: rgba(59, 130, 246, 0.5);
         }
       `}</style>
       
       {/* ── SIDEBAR ── */}
-      <aside className="w-72 bg-white border-r border-slate-200 flex flex-col shadow-sm z-10">
-        <div className="p-6">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20">
-              <Zap size={20} className="text-white" fill="white" />
+      <aside className="w-80 bg-slate-950/40 backdrop-blur-3xl border-r border-white/5 flex flex-col z-20">
+        <div className="p-8">
+          <div className="flex items-center gap-4 mb-12">
+            <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center shadow-[0_10px_30px_rgba(37,99,235,0.3)]">
+              <Cpu size={24} className="text-white" />
             </div>
-            <h1 className="font-bold text-xl tracking-tight text-slate-800">AI Assistant</h1>
+            <div>
+              <h1 className="font-extrabold text-xl tracking-tighter text-white uppercase italic">NEURAL CORE</h1>
+              <p className="text-[9px] font-extrabold text-blue-500 uppercase tracking-[0.3em]">Protocol v4.2.0</p>
+            </div>
           </div>
           
-          <nav className="space-y-1">
+          <nav className="space-y-2">
             <NavItem 
               active={activeTool === 'chat'} 
               onClick={() => setActiveTool('chat')}
               icon={<MessageSquare size={18} />}
-              label="AI Career Chat"
-              badge="Beta"
+              label="NEURAL CHAT"
+              badge="STABLE"
             />
             <NavItem 
               active={activeTool === 'cv-analyzer'} 
               onClick={() => setActiveTool('cv-analyzer')}
               icon={<FileText size={18} />}
-              label="CV Analyzer"
+              label="SCAN CV"
             />
             <NavItem 
               active={activeTool === 'cover-letter'} 
               onClick={() => setActiveTool('cover-letter')}
               icon={<Sparkles size={18} />}
-              label="Draft Cover Letter"
+              label="MANIFESTO GEN"
             />
             <NavItem 
               active={activeTool === 'message-gen'} 
               onClick={() => setActiveTool('message-gen')}
               icon={<Mail size={18} />}
-              label="Message Generator"
+              label="SIGNAL BROADCAST"
             />
           </nav>
         </div>
 
-        <div className="mt-auto p-4 border-t border-slate-100">
-          <div className="bg-slate-50 rounded-xl p-4">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                <BrainCircuit size={16} className="text-blue-600" />
+        <div className="mt-auto p-6 border-t border-white/5">
+          <div className="bg-white/5 backdrop-blur-3xl rounded-3xl p-6 border border-white/5">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-blue-600/10 flex items-center justify-center border border-blue-500/20">
+                <BrainCircuit size={18} className="text-blue-400" />
               </div>
-              <p className="text-xs font-bold text-slate-700">Token Usage</p>
+              <div>
+                <p className="text-[10px] font-extrabold text-white uppercase tracking-widest italic">NEURAL CAPACITY</p>
+                <p className="text-[9px] text-slate-500 font-semibold">3,400 / 10,000 FLOPs</p>
+              </div>
             </div>
-            <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-              <div className="w-1/3 h-full bg-blue-500"></div>
+            <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden shadow-inner">
+              <div className="w-1/3 h-full bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.6)]"></div>
             </div>
-            <p className="text-[10px] text-slate-400 mt-2 font-medium">3,400 / 10,000 credits left</p>
           </div>
         </div>
       </aside>
 
       {/* ── MAIN CONTENT ── */}
-      <main className="flex-1 flex flex-col relative bg-[#fcfdfe]">
+      <main className="flex-1 flex flex-col relative z-10 overflow-hidden">
         
         {/* Header toolbar */}
-        <header className="h-16 border-b border-slate-100 bg-white/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-20">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-sm font-semibold text-slate-600 capitalize">{activeTool.replace('-', ' ')}</span>
+        <header className="h-20 border-b border-white/5 bg-slate-900/60 backdrop-blur-3xl flex items-center justify-between px-10 sticky top-0 z-30">
+          <div className="flex items-center gap-4">
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.8)]"></div>
+            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-[0.4em] italic leading-none">{activeTool.replace('-', ' ')} protocol active</span>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors"><History size={20}/></button>
-            <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors"><Settings size={20}/></button>
+          <div className="flex items-center gap-4">
+            <ToolbarBtn icon={<History size={20}/>}/>
+            <ToolbarBtn icon={<Settings size={20}/>}/>
             <button 
-              onClick={() => setMessages([{ role: 'ai', content: 'Chat cleared. How else can I help?' }])}
-              className="p-2 text-slate-400 hover:text-red-500 transition-colors"
+              onClick={() => setMessages([{ role: 'ai', content: 'Neural buffer cleared. Re-initializing session...' }])}
+              className="p-3 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-2xl transition-all"
             >
               <Trash2 size={20}/>
             </button>
@@ -262,30 +278,30 @@ export default function AiAssistantPage() {
         </header>
 
         {/* TOOL VIEWS */}
-        <div className="flex-1 overflow-hidden relative">
+        <div className="flex-1 overflow-hidden relative custom-scrollbar">
           
           {/* ── CHAT VIEW ── */}
           <div className={clsx("absolute inset-0 flex flex-col", activeTool === 'chat' ? 'visible' : 'invisible')}>
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-6 scroll-smooth">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-10 space-y-10 scroll-smooth custom-scrollbar">
               {messages.map((msg, idx) => (
-                <div key={idx} className={clsx("flex gap-4 max-w-4xl animate-in fade-in slide-in-from-bottom-2 duration-500", msg.role === 'user' ? "ml-auto flex-row-reverse" : "")}>
+                <div key={idx} className={clsx("flex gap-6 max-w-5xl animate-in fade-in slide-in-from-bottom-4 duration-700", msg.role === 'user' ? "ml-auto flex-row-reverse text-right" : "")}>
                   <div className={clsx(
-                    "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm transition-transform hover:scale-105",
-                    msg.role === 'user' ? "bg-white border border-slate-200" : "bg-blue-600"
+                    "w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-2xl transition-all duration-500 backdrop-blur-3xl border",
+                    msg.role === 'user' ? "bg-white/5 border-white/10 group-hover:scale-110" : "bg-blue-600 border-blue-400/30 group-hover:scale-110"
                   )}>
-                    {msg.role === 'user' ? <User size={20} className="text-slate-600" /> : <Bot size={20} className="text-white" />}
+                    {msg.role === 'user' ? <User size={24} className="text-slate-400" /> : <Bot size={24} className="text-white" />}
                   </div>
                   <div className={clsx(
-                    "p-4 rounded-2xl shadow-sm text-sm leading-relaxed",
+                    "p-6 md:p-8 rounded-[2.5rem] shadow-2xl text-lg leading-relaxed border relative overflow-hidden",
                     msg.role === 'user' 
-                      ? "bg-blue-600 text-white rounded-tr-none" 
-                      : "bg-white border border-slate-100 text-slate-700 rounded-tl-none"
+                      ? "bg-blue-600/90 text-white rounded-tr-none border-blue-400/30" 
+                      : "bg-white/5 backdrop-blur-3xl border-white/5 text-slate-300 rounded-tl-none"
                   )}>
-                    <p className="whitespace-pre-wrap">{msg.content}</p>
+                    <p className={clsx("whitespace-pre-wrap font-semibold italic opacity-95", msg.role === 'user' ? "" : "tracking-tight uppercase")}>{msg.content}</p>
                     
                     {/* Render object data if available */}
                     {msg.type === 'object' && msg.data && (
-                      <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
+                      <div className="mt-8 pt-8 border-t border-white/5 space-y-6">
                         {renderAiData(msg.data)}
                       </div>
                     )}
@@ -293,196 +309,175 @@ export default function AiAssistantPage() {
                 </div>
               ))}
               {isLoading && (
-                <div className="flex gap-4 max-w-4xl">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
-                    <Bot size={20} className="text-white animate-pulse" />
+                <div className="flex gap-6 max-w-5xl animate-pulse">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center flex-shrink-0 border border-blue-400/30">
+                    <Bot size={24} className="text-white animate-spin duration-[3000ms]" />
                   </div>
-                  <div className="p-4 bg-white border border-slate-100 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2">
-                    <Loader2 size={16} className="animate-spin text-blue-600" />
-                    <span className="text-xs font-medium text-slate-400">AI is thinking...</span>
+                  <div className="p-8 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] rounded-tl-none shadow-2xl flex items-center gap-4">
+                    <Loader2 size={18} className="animate-spin text-blue-500" />
+                    <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-[0.5em] italic">Synthesizing Neural Response...</span>
                   </div>
                 </div>
               )}
             </div>
 
             {/* Input Bar */}
-            <div className="p-6 bg-white border-t border-slate-100">
-              <div className="max-w-4xl mx-auto relative group">
-                <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
-                <div className="flex items-center gap-3 bg-slate-50 border border-slate-200 p-2 rounded-2xl focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-100 transition-all shadow-sm">
-                  <button className="p-2.5 text-slate-400 hover:text-blue-500 rounded-xl hover:bg-white transition-all"><Paperclip size={20}/></button>
+            <div className="p-10 bg-gradient-to-t from-slate-900 via-slate-900 to-transparent">
+              <div className="max-w-5xl mx-auto relative">
+                <div className="flex items-center gap-4 bg-slate-950/60 backdrop-blur-3xl border border-white/10 p-3 rounded-[3.5rem] focus-within:border-blue-500/50 focus-within:shadow-[0_0_40px_rgba(37,99,235,0.15)] transition-all duration-500 shadow-2xl">
+                  <button className="p-4 text-slate-500 hover:text-blue-500 hover:bg-white/5 rounded-full transition-all"><Paperclip size={24}/></button>
                   <input 
                     type="text" 
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleSendChat()}
-                    placeholder="Ask anything about your career..."
-                    className="flex-1 bg-transparent py-2 text-sm outline-none placeholder:text-slate-400"
+                    placeholder="Ask the Neural Core anything about your career..."
+                    className="flex-1 bg-transparent py-4 text-xl outline-none placeholder:text-slate-600 font-semibold italic uppercase tracking-tight"
                   />
                   <button 
                     onClick={handleSendChat}
                     disabled={!input.trim() || isLoading}
-                    className="p-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-40 transition-all shadow-md shadow-blue-600/20 active:scale-95"
+                    className="p-5 bg-blue-600 text-white rounded-[2.5rem] hover:bg-white hover:text-blue-600 disabled:opacity-20 transition-all shadow-[0_10px_30px_rgba(37,99,235,0.4)] active:scale-90"
                   >
-                    <Send size={18} />
+                    <Send size={28} />
                   </button>
                 </div>
-                <p className="text-[10px] text-center mt-3 text-slate-400 font-medium">AiJob Assistant may provide inaccurate career advice. Verify important info.</p>
+                <p className="text-[9px] text-center mt-6 text-slate-600 font-extrabold uppercase tracking-[0.6em] italic opacity-60">NEURAL ADVISORY: VERIFY SYNTHESIZED DATA BEFORE DEPLOYMENT.</p>
               </div>
             </div>
           </div>
 
           {/* ── CV ANALYZER VIEW ── */}
-          <div className={clsx("absolute inset-0 flex flex-col p-8 bg-white", activeTool === 'cv-analyzer' ? 'visible' : 'invisible')}>
-            <div className="max-w-3xl mx-auto w-full pt-10">
-              <div className="text-center mb-10">
-                <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <FileText className="text-blue-600" size={32} />
-                </div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">CV Content Analyzer</h2>
-                <p className="text-slate-500 text-sm">Paste your CV text to get a deep analysis of your skills and improvements.</p>
-              </div>
-              <textarea 
-                value={cvText}
-                onChange={e => setCvText(e.target.value)}
-                placeholder="Paste your CV text here..."
-                className="w-full h-80 p-6 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-blue-400 focus:bg-white transition-all text-sm leading-relaxed shadow-inner"
-              />
-              <button 
-                onClick={handleAnalyzeCv}
-                disabled={!cvText.trim() || isLoading}
-                className="w-full mt-6 bg-blue-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 disabled:opacity-50 transition-all shadow-lg shadow-blue-600/25"
-              >
-                {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Zap size={18} />}
-                Analyze My Profile
-              </button>
-            </div>
-          </div>
+          <ToolLayout 
+            visible={activeTool === 'cv-analyzer'}
+            icon={<FileText className="text-blue-500" size={48} />}
+            title="NEURAL CV ANALYZER"
+            subtitle="Deploy your CV signature for horizontal skill-sync analysis."
+          >
+            <textarea 
+              value={cvText}
+              onChange={e => setCvText(e.target.value)}
+              placeholder="PASTE CV RAW TEXT HERE..."
+              className="w-full h-96 p-8 bg-white/5 border border-white/10 rounded-[3.5rem] outline-none focus:border-blue-500/50 focus:bg-white/10 transition-all text-xl font-semibold italic uppercase leading-relaxed shadow-inner placeholder:text-slate-800"
+            />
+            <button 
+              onClick={handleAnalyzeCv}
+              disabled={!cvText.trim() || isLoading}
+              className="w-full mt-10 bg-blue-600 text-white py-6 rounded-[3rem] font-extrabold text-2xl flex items-center justify-center gap-4 hover:bg-white hover:text-blue-600 disabled:opacity-20 transition-all shadow-[0_20px_50px_rgba(37,99,235,0.3)] uppercase italic tracking-widest"
+            >
+              {isLoading ? <Loader2 size={24} className="animate-spin" /> : <Zap size={24} fill="white" />}
+              INITIATE NEURAL SCAN
+            </button>
+          </ToolLayout>
 
           {/* ── COVER LETTER VIEW ── */}
-          <div className={clsx("absolute inset-0 flex flex-col p-8 bg-white", activeTool === 'cover-letter' ? 'visible' : 'invisible')}>
-            <div className="max-w-2xl mx-auto w-full pt-10">
-              <div className="text-center mb-10">
-                <div className="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="text-purple-600" size={32} />
-                </div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">Draft Cover Letter</h2>
-                <p className="text-slate-500 text-sm">Let AI write a tailored cover letter for your target job.</p>
-              </div>
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Job ID (Optional)</label>
-                    <input 
-                      type="number"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-purple-400 transition-all text-sm"
-                      placeholder="e.g. 104"
-                      onChange={e => setCoverLetterContext(prev => ({ ...prev, jobId: parseInt(e.target.value) || 0 }))}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tone</label>
-                    <select 
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-purple-400 transition-all text-sm"
-                      onChange={e => setCoverLetterContext(prev => ({ ...prev, tone: e.target.value }))}
-                    >
-                      <option value="professional">Professional</option>
-                      <option value="creative">Creative</option>
-                      <option value="confident">Confident</option>
-                      <option value="humble">Humble</option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Extra Context (Job Desc, Company Name...)</label>
-                  <textarea 
-                    className="w-full h-40 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-purple-400 transition-all text-sm"
-                    placeholder="Describe the company or paste job requirements..."
-                    onChange={e => setCoverLetterContext(prev => ({ ...prev, extra: e.target.value }))}
+          <ToolLayout 
+            visible={activeTool === 'cover-letter'}
+            icon={<Sparkles className="text-indigo-400" size={48} />}
+            title="MANIFESTO GENERATOR"
+            subtitle="Architect a tailored manifesto for your target opportunity node."
+          >
+            <div className="space-y-10">
+              <div className="grid grid-cols-2 gap-8">
+                <ToolInput label="NODE ID (OPTIONAL)">
+                  <input 
+                    type="number"
+                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-indigo-500/50 transition-all text-lg font-semibold italic text-white"
+                    placeholder="e.g. 104"
+                    onChange={e => setCoverLetterContext(prev => ({ ...prev, jobId: parseInt(e.target.value) || 0 }))}
                   />
-                </div>
-                <button 
-                  onClick={handleDraftCoverLetter}
-                  disabled={isLoading}
-                  className="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/25"
-                >
-                  Generate Cover Letter
-                </button>
+                </ToolInput>
+                <ToolInput label="SIGNAL TONE">
+                  <select 
+                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-indigo-500/50 transition-all text-lg font-semibold italic text-white appearance-none uppercase"
+                    onChange={e => setCoverLetterContext(prev => ({ ...prev, tone: e.target.value }))}
+                  >
+                    <option value="professional" className="bg-slate-900">Professional</option>
+                    <option value="creative" className="bg-slate-900">Creative</option>
+                    <option value="confident" className="bg-slate-900">Confident</option>
+                    <option value="humble" className="bg-slate-900">Humble</option>
+                  </select>
+                </ToolInput>
               </div>
+              <ToolInput label="EXTRA CONTEXT (TARGET DIRECTIVES)">
+                <textarea 
+                  className="w-full h-48 px-8 py-6 bg-white/5 border border-white/10 rounded-[2.5rem] outline-none focus:border-indigo-500/50 transition-all text-lg font-semibold italic text-white uppercase"
+                  placeholder="DEPLOY TARGET DETAILS..."
+                  onChange={e => setCoverLetterContext(prev => ({ ...prev, extra: e.target.value }))}
+                />
+              </ToolInput>
+              <button 
+                onClick={handleDraftCoverLetter}
+                disabled={isLoading}
+                className="w-full bg-indigo-600 text-white py-6 rounded-[3rem] font-extrabold text-2xl flex items-center justify-center gap-4 hover:bg-white hover:text-indigo-600 transition-all shadow-[0_20px_50px_rgba(79,70,229,0.3)] uppercase italic tracking-widest"
+              >
+                GENERATE MANIFESTO
+              </button>
             </div>
-          </div>
+          </ToolLayout>
 
           {/* ── MESSAGE GEN VIEW ── */}
-          <div className={clsx("absolute inset-0 flex flex-col p-8 bg-white", activeTool === 'message-gen' ? 'visible' : 'invisible')}>
-            <div className="max-w-2xl mx-auto w-full pt-10 overflow-y-auto pr-4 custom-scrollbar">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Mail className="text-amber-600" size={32} />
-                </div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">Smart Message Generator</h2>
-                <p className="text-slate-500 text-sm">Professional messages for recruiters or hiring managers.</p>
-              </div>
-              <div className="space-y-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Recipient Name</label>
-                    <input 
-                      type="text"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-amber-400 transition-all text-sm"
-                      placeholder="e.g. John Doe"
-                      onChange={e => setMessageContext(prev => ({ ...prev, recipient: e.target.value }))}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Purpose</label>
-                    <input 
-                      type="text"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-amber-400 transition-all text-sm"
-                      placeholder="e.g. Interview Follow-up"
-                      onChange={e => setMessageContext(prev => ({ ...prev, purpose: e.target.value }))}
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tone</label>
-                    <select 
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-amber-400 transition-all text-sm"
-                      onChange={e => setMessageContext(prev => ({ ...prev, tone: e.target.value }))}
-                    >
-                      <option value="formal">Formal</option>
-                      <option value="casual">Casual</option>
-                      <option value="friendly">Friendly</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Job ID</label>
-                    <input 
-                      type="number"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-amber-400 transition-all text-sm"
-                      placeholder="e.g. 101"
-                      onChange={e => setMessageContext(prev => ({ ...prev, jobId: parseInt(e.target.value) || 0 }))}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Extra Details</label>
-                  <textarea 
-                    className="w-full h-24 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-amber-400 transition-all text-sm"
-                    placeholder="Mention specific points you want included..."
-                    onChange={e => setMessageContext(prev => ({ ...prev, extra: e.target.value }))}
+          <ToolLayout 
+            visible={activeTool === 'message-gen'}
+            icon={<Mail className="text-amber-500" size={48} />}
+            title="SIGNAL BROADCASTER"
+            subtitle="Engage recruiters with high-precision messaging protocols."
+          >
+            <div className="space-y-8">
+              <div className="grid grid-cols-2 gap-8">
+                <ToolInput label="RECIPIENT SIGNATURE">
+                  <input 
+                    type="text"
+                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white"
+                    placeholder="e.g. JOHN DOE"
+                    onChange={e => setMessageContext(prev => ({ ...prev, recipient: e.target.value }))}
                   />
-                </div>
-                <button 
-                  onClick={handleDraftMessage}
-                  disabled={isLoading}
-                  className="w-full bg-amber-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-amber-700 transition-all shadow-lg shadow-amber-600/25"
-                >
-                  Generate Message
-                </button>
+                </ToolInput>
+                <ToolInput label="SIGNAL PURPOSE">
+                  <input 
+                    type="text"
+                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white"
+                    placeholder="e.g. FOLLOW-UP"
+                    onChange={e => setMessageContext(prev => ({ ...prev, purpose: e.target.value }))}
+                  />
+                </ToolInput>
               </div>
+              <div className="grid grid-cols-2 gap-8">
+                <ToolInput label="PROTOCOL TONE">
+                  <select 
+                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white appearance-none uppercase"
+                    onChange={e => setMessageContext(prev => ({ ...prev, tone: e.target.value }))}
+                  >
+                    <option value="formal" className="bg-slate-900">Formal</option>
+                    <option value="casual" className="bg-slate-900">Casual</option>
+                    <option value="friendly" className="bg-slate-900">Friendly</option>
+                  </select>
+                </ToolInput>
+                <ToolInput label="TARGET NODE ID">
+                  <input 
+                    type="number"
+                    className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-[2rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white"
+                    placeholder="e.g. 101"
+                    onChange={e => setMessageContext(prev => ({ ...prev, jobId: parseInt(e.target.value) || 0 }))}
+                  />
+                </ToolInput>
+              </div>
+              <ToolInput label="EXTRA CHANNEL DATA">
+                <textarea 
+                  className="w-full h-32 px-8 py-6 bg-white/5 border border-white/10 rounded-[2.5rem] outline-none focus:border-amber-500/50 transition-all text-lg font-semibold italic text-white uppercase"
+                  placeholder="SPECIFY TARGET DIRECTIVES..."
+                  onChange={e => setMessageContext(prev => ({ ...prev, extra: e.target.value }))}
+                />
+              </ToolInput>
+              <button 
+                onClick={handleDraftMessage}
+                disabled={isLoading}
+                className="w-full bg-amber-600 text-white py-6 rounded-[3rem] font-extrabold text-2xl flex items-center justify-center gap-4 hover:bg-white hover:text-amber-600 transition-all shadow-[0_20px_50px_rgba(217,119,6,0.3)] uppercase italic tracking-widest"
+              >
+                BROADCAST SIGNAL
+              </button>
             </div>
-          </div>
+          </ToolLayout>
 
         </div>
       </main>
@@ -495,23 +490,62 @@ function NavItem({ active, onClick, icon, label, badge }: any) {
     <button 
       onClick={onClick}
       className={clsx(
-        "w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group",
+        "w-full flex items-center justify-between px-6 py-4 rounded-3xl transition-all duration-300 group",
         active 
-          ? "bg-blue-50 text-blue-700 shadow-sm shadow-blue-500/5" 
-          : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+          ? "bg-blue-600 text-white shadow-[0_10px_30px_rgba(37,99,235,0.4)] scale-105" 
+          : "text-slate-500 hover:bg-white/5 hover:text-white"
       )}
     >
-      <div className="flex items-center gap-3">
-        <span className={clsx("transition-transform duration-200", active ? "scale-110" : "group-hover:translate-x-0.5")}>{icon}</span>
-        <span className="text-sm font-bold">{label}</span>
+      <div className="flex items-center gap-4">
+        <span className={clsx("transition-transform duration-300", active ? "scale-110" : "group-hover:translate-x-1")}>{icon}</span>
+        <span className="text-sm font-extrabold italic uppercase tracking-widest leading-none mt-0.5">{label}</span>
       </div>
       {badge && (
-        <span className="text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">
+        <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] bg-white/10 text-white px-2.5 py-1 rounded-full italic animate-pulse">
           {badge}
         </span>
       )}
-      {!badge && active && <ChevronRight size={14} className="text-blue-400" />}
+      {!badge && active && <ChevronRight size={16} className="text-white/50" />}
     </button>
+  );
+}
+
+function ToolbarBtn({ icon }: any) {
+  return (
+    <button className="p-3 bg-white/5 border border-white/5 text-slate-500 hover:text-white hover:bg-white/10 rounded-2xl transition-all backdrop-blur-3xl shadow-2xl">
+      {icon}
+    </button>
+  );
+}
+
+function ToolLayout({ visible, icon, title, subtitle, children }: any) {
+  return (
+    <div className={clsx("absolute inset-0 flex flex-col p-10 custom-scrollbar overflow-y-auto", visible ? 'visible' : 'invisible opacity-0 pointer-events-none')}>
+      <div className="max-w-4xl mx-auto w-full pt-16 pb-20">
+        <div className="text-center mb-16 space-y-4">
+          <div className="w-24 h-24 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 shadow-2xl animate-in zoom-in duration-700">
+            {icon}
+          </div>
+          <h2 className="text-5xl font-extrabold text-white tracking-tighter italic uppercase">{title}<span className="text-blue-500">.</span></h2>
+          <p className="text-slate-500 font-semibold text-xl italic uppercase tracking-tight opacity-80">{subtitle}</p>
+        </div>
+        <div className="bg-slate-950/40 backdrop-blur-3xl p-12 rounded-[5rem] border border-white/5 shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 blur-[100px] rounded-full -translate-x-10 translate-y-10 group-hover:bg-blue-600/10 transition-all duration-1000"></div>
+          <div className="relative z-10 space-y-10">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ToolInput({ label, children }: any) {
+  return (
+    <div className="space-y-4">
+      <label className="text-[10px] font-extrabold text-slate-500 uppercase tracking-[0.6em] italic ml-6">{label}</label>
+      {children}
+    </div>
   );
 }
 
@@ -519,25 +553,25 @@ function renderAiData(data: any) {
   // If it's the CV Analyzer response
   if (data.skills) {
     return (
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-3">
-          <StatBox label="Exp Years" value={data.experienceYears} icon={<Target size={14}/>} color="blue" />
-          <StatBox label="Rank" value="A+" icon={<Sparkles size={14}/>} color="purple" />
+      <div className="space-y-10">
+        <div className="grid grid-cols-2 gap-6">
+          <StatBox label="NEURAL EXP" value={`${data.experienceYears} CYCLES`} icon={<Target size={18}/>} color="blue" />
+          <StatBox label="RANK TIER" value="S-Class" icon={<Sparkles size={18}/>} color="purple" />
         </div>
         <div>
-          <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Technical Skills</h4>
-          <div className="flex flex-wrap gap-1.5">
+          <h4 className="text-[10px] font-extrabold text-slate-500 uppercase tracking-[0.5em] mb-6 italic ml-2">CALIBRATED SKILLSETS</h4>
+          <div className="flex flex-wrap gap-3">
             {data.skills?.map((s: string, i: number) => (
-              <span key={i} className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[11px] font-bold rounded-lg border border-blue-100">{s}</span>
+              <span key={i} className="px-4 py-2 bg-blue-600/20 text-blue-400 text-[11px] font-extrabold uppercase tracking-widest rounded-xl border border-blue-500/20 italic">{s}</span>
             ))}
           </div>
         </div>
         <div>
-          <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Key Recommendations</h4>
-          <ul className="space-y-1.5">
+          <h4 className="text-[10px] font-extrabold text-slate-500 uppercase tracking-[0.5em] mb-6 italic ml-2">CORE DIRECTIVES</h4>
+          <ul className="space-y-4 mt-2">
             {data.howToImprove?.slice(0, 3).map((r: string, i: number) => (
-              <li key={i} className="flex items-start gap-2 text-xs text-slate-600">
-                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0"></span>
+              <li key={i} className="flex items-start gap-4 text-sm text-slate-400 font-semibold italic uppercase tracking-tight">
+                <div className="mt-1 w-2.5 h-2.5 rounded-full bg-blue-600 shadow-[0_0_10px_#2563eb] flex-shrink-0"></div>
                 {r}
               </li>
             ))}
@@ -550,46 +584,47 @@ function renderAiData(data: any) {
   // If it's a drafted text (Letter or Message)
   if (data.subject || data.content) {
     return (
-      <div className="space-y-3">
+      <div className="space-y-6">
         {data.subject && (
-          <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Subject</p>
-            <p className="text-xs font-bold text-slate-800">{data.subject}</p>
+          <div className="p-6 bg-white/[0.03] rounded-[2rem] border border-white/5">
+            <p className="text-[10px] font-extrabold text-slate-500 uppercase tracking-[0.4em] mb-3 italic">SIGNAL SUBJECT</p>
+            <p className="text-lg font-extrabold text-white italic uppercase tracking-tighter leading-none">{data.subject}</p>
           </div>
         )}
-        <div className="p-4 bg-white border border-slate-100 rounded-xl shadow-inner relative group">
+        <div className="p-8 bg-slate-950/60 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] shadow-2xl relative group overflow-hidden">
+           <div className="absolute inset-0 bg-blue-600/[0.02] opacity-0 group-hover:opacity-100 transition-opacity"></div>
           <button 
             onClick={() => {
               navigator.clipboard.writeText(data.content);
-              toast.success('Copied to clipboard!');
+              toast.success('Signal buffered to local registry!');
             }}
-            className="absolute top-2 right-2 p-1.5 bg-slate-50 text-slate-400 hover:text-blue-600 rounded-lg opacity-0 group-hover:opacity-100 transition-all border border-slate-200"
-            title="Copy"
+            className="absolute top-4 right-4 p-3 bg-white/5 text-slate-500 hover:text-blue-500 rounded-xl opacity-0 group-hover:opacity-100 transition-all border border-white/10 backdrop-blur-3xl"
+            title="Copy Signal"
           >
-            <FileText size={14}/>
+            <FileText size={20}/>
           </button>
-          <p className="text-xs text-slate-600 leading-relaxed font-mono">{data.content}</p>
+          <p className="text-xl text-slate-300 leading-relaxed font-semibold italic uppercase tracking-tight pr-10">{data.content}</p>
         </div>
       </div>
     );
   }
 
-  return <pre className="text-[10px] bg-slate-50 p-2 rounded overflow-x-auto">{JSON.stringify(data, null, 2)}</pre>;
+  return <pre className="text-[10px] bg-white/5 p-6 rounded-3xl border border-white/5 overflow-x-auto custom-scrollbar italic">{JSON.stringify(data, null, 2)}</pre>;
 }
 
 function StatBox({ label, value, icon, color }: any) {
   const colors: any = {
-    blue: "bg-blue-50 text-blue-600 border-blue-100",
-    purple: "bg-purple-50 text-purple-600 border-purple-100",
+    blue: "bg-blue-600/10 text-blue-400 border-blue-500/20",
+    purple: "bg-purple-600/10 text-purple-400 border-purple-500/20",
   };
   return (
-    <div className={clsx("p-3 rounded-xl border flex items-center gap-3", colors[color] || colors.blue)}>
-      <div className="w-8 h-8 rounded-lg bg-white border border-inherit flex items-center justify-center shadow-sm">
+    <div className={clsx("p-6 rounded-3xl border flex items-center gap-6 shadow-2xl backdrop-blur-md", colors[color] || colors.blue)}>
+      <div className="w-12 h-12 rounded-2xl bg-white/5 border border-inherit flex items-center justify-center shadow-inner">
         {icon}
       </div>
       <div>
-        <p className="text-[9px] font-bold uppercase tracking-widest opacity-70">{label}</p>
-        <p className="text-sm font-black">{value}</p>
+        <p className="text-[9px] font-extrabold uppercase tracking-[0.4em] opacity-60 mb-1 italic">{label}</p>
+        <p className="text-xl font-extrabold italic uppercase tracking-tighter leading-none">{value}</p>
       </div>
     </div>
   );

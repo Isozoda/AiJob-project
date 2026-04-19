@@ -26,6 +26,26 @@ axiosRequest.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
+axiosRequest.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("store_token");
+      if (typeof window !== "undefined") {
+        window.location.href = "/pages/login";
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+export function logout() {
+  localStorage.removeItem("store_token");
+  if (typeof window !== "undefined") {
+    window.location.href = "/";
+  }
+}
+
 export const getUserIdFromToken = (): number | null => {
   const token = getToken();
   if (!token) return null;
