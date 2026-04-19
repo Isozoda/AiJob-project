@@ -30,6 +30,10 @@ import {
   X
 } from 'lucide-react';
 import { clsx } from "clsx";
+import { Upload, Button, message } from 'antd';
+import { CameraOutlined, UploadOutlined, PictureOutlined } from '@ant-design/icons';
+import type { UploadProps } from 'antd';
+import "../../../components/ImagePickerModal.css";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -476,8 +480,75 @@ export default function ProfilePage() {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                 <FormGroup label="AVATAR_SIGNAL_URL" value={form.photoUrl} onChange={v => setForm({ ...form, photoUrl: v })} placeholder="https://..." />
-                                 <FormGroup label="ATMOSPHERE_SIGNAL_URL" value={form.backgroundPhotoUrl} onChange={v => setForm({ ...form, backgroundPhotoUrl: v })} placeholder="https://..." />
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] ml-8 italic leading-none">AVATAR_NEURAL_SIGNAL</label>
+                                    <Upload
+                                        showUploadList={false}
+                                        multiple={false}
+                                        beforeUpload={() => false}
+                                        onChange={(info) => {
+                                            const file = info.file;
+                                            if (file) {
+                                                const reader = new FileReader();
+                                                reader.onloadend = () => setForm({ ...form, photoUrl: reader.result as string });
+                                                // @ts-ignore
+                                                reader.readAsDataURL(file as any);
+                                            }
+                                        }}
+                                        className="w-full"
+                                    >
+                                        <div className="w-full bg-white/5 border border-white/10 rounded-[2rem] p-4 flex items-center gap-6 cursor-pointer hover:bg-white/10 transition-all group">
+                                            <div className="w-16 h-16 rounded-[1.2rem] overflow-hidden bg-slate-800 border border-white/10 shrink-0">
+                                                {form.photoUrl ? (
+                                                    <img src={form.photoUrl} className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center text-white/10">
+                                                        <CameraOutlined style={{ fontSize: '24px' }} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="text-left">
+                                                <p className="text-[10px] font-black text-white uppercase tracking-widest">Update Avatar</p>
+                                                <p className="text-[8px] font-bold text-slate-500 uppercase tracking-tighter mt-1">Neural ID Identity</p>
+                                            </div>
+                                        </div>
+                                    </Upload>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] ml-8 italic leading-none">ATMOSPHERE_NEURAL_SIGNAL</label>
+                                    <Upload
+                                        showUploadList={false}
+                                        multiple={false}
+                                        beforeUpload={() => false}
+                                        onChange={(info) => {
+                                            const file = info.file;
+                                            if (file) {
+                                                const reader = new FileReader();
+                                                reader.onloadend = () => setForm({ ...form, backgroundPhotoUrl: reader.result as string });
+                                                // @ts-ignore
+                                                reader.readAsDataURL(file as any);
+                                            }
+                                        }}
+                                        className="w-full"
+                                    >
+                                        <div className="w-full bg-white/5 border border-white/10 rounded-[2rem] p-4 flex items-center gap-6 cursor-pointer hover:bg-white/10 transition-all group">
+                                            <div className="w-20 h-16 rounded-[1.2rem] overflow-hidden bg-slate-800 border border-white/10 shrink-0">
+                                                {form.backgroundPhotoUrl ? (
+                                                    <img src={form.backgroundPhotoUrl} className="w-full h-full object-cover opacity-60" />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center text-white/10">
+                                                        <PictureOutlined style={{ fontSize: '24px' }} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="text-left">
+                                                <p className="text-[10px] font-black text-white uppercase tracking-widest">Update Atmosphere</p>
+                                                <p className="text-[8px] font-bold text-slate-500 uppercase tracking-tighter mt-1">Grid Visual Core</p>
+                                            </div>
+                                        </div>
+                                    </Upload>
+                                </div>
                             </div>
                         </div>
 
