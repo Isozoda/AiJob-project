@@ -1,18 +1,21 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   sendMessage,
   getMessagesByConversation,
   deleteMessage,
-} from '@/src/app/services/messageService';
+} from "@/src/app/services/messageService";
 
-import type { SendMessagePayload } from '@/src/app/types/message';
+import type { SendMessagePayload } from "@/src/app/types/message";
 
 export const messageKeys = {
-  byConversation: (id: number) => ['messages', id] as const,
+  byConversation: (id: number) => ["messages", id] as const,
 };
 
 /** Get messages by conversation */
-export const useConversationMessages = (conversationId: number, enabled = true) =>
+export const useConversationMessages = (
+  conversationId: number,
+  enabled = true,
+) =>
   useQuery({
     queryKey: messageKeys.byConversation(conversationId),
     queryFn: () => getMessagesByConversation(conversationId),
@@ -26,7 +29,9 @@ export const useSendMessage = () => {
   return useMutation({
     mutationFn: (payload: SendMessagePayload) => sendMessage(payload),
     onSuccess: (_data, variables) => {
-      qc.invalidateQueries({ queryKey: messageKeys.byConversation(variables.conversationId) });
+      qc.invalidateQueries({
+        queryKey: messageKeys.byConversation(variables.conversationId),
+      });
     },
   });
 };
@@ -37,7 +42,7 @@ export const useDeleteMessage = () => {
   return useMutation({
     mutationFn: (id: number) => deleteMessage(id),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['messages'] });
+      qc.invalidateQueries({ queryKey: ["messages"] });
     },
   });
 };

@@ -197,7 +197,7 @@ function FeedView() {
 
   // ── PAGINATION LOGIC ──
   const [currentPage, setCurrentPage] = useState(1);
-  const POSTS_PER_PAGE = 12;
+  const POSTS_PER_PAGE = 20;
   const totalPages = posts ? Math.ceil(posts.length / POSTS_PER_PAGE) : 0;
   const paginatedPosts = posts ? posts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE) : [];
 
@@ -329,7 +329,7 @@ function FeedView() {
             </div>
           </div>
 
-          <ImagePickerModal 
+          <ImagePickerModal
             isOpen={isImagePickerOpen}
             onClose={() => setIsImagePickerOpen(false)}
             onPost={handleCreatePost}
@@ -561,7 +561,7 @@ function PostCard({ post, timeAgo, onLike, onRepost }: {
       {/* Content */}
       <div className="px-12 pt-10 pb-10">
         <p className="text-2xl text-slate-200 font-extrabold leading-[1.4] whitespace-pre-wrap italic opacity-90 tracking-tight">
-          “{post.content}”
+          “{post.content.slice(0, 20)}”
         </p>
       </div>
 
